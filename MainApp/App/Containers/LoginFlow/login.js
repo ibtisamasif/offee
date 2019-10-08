@@ -26,7 +26,7 @@ class Login extends Component {
       password: "",
       loading: false,
       overlayVisible: false,
-      checked: true,
+      checked: false,
       userType: "user",
       isModalVisibleForgetPassword: false,
       IsModalVisibleSelectSignUp: false,
@@ -125,36 +125,8 @@ class Login extends Component {
             >
               <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
                 <Image source={images.icon} style={styles.logo} />
-                <Text
-                  style={{
-                    fontSize: totalSize(1.5),
-                    color: "gray",
-                    fontWeight: "bold"
-                  }}
-                >
-                  Live
-                </Text>
               </View>
-              <View style={[styles.txtContainer]}>
-                <Text
-                  style={[
-                    styles.welcome,
-                    { fontSize: totalSize(5), color: colors.redColor }
-                  ]}
-                >
-                  Offee
-                </Text>
-              </View>
-              <View style={[styles.txtContainer]}>
-                <Text
-                  style={[
-                    styles.welcome,
-                    { fontSize: totalSize(3), color: colors.Offeeblue }
-                  ]}
-                >
-                  Login
-                </Text>
-              </View>
+
               {/* <View style={[styles.txtContainer, { flexDirection: 'row' }]}>
                                 <Text style={[styles.welcome, { fontSize: totalSize(1.5), fontWeight: 'normal' }]}>DON'T HAVE AN ACCOUNT? </Text>
                                 <TouchableOpacity onPress={() => this._toggleModalSelectSignUp()}>
@@ -199,6 +171,55 @@ class Login extends Component {
                   onPress={this.changePwdType}
                 />
               </View>
+              <View style={{ width: "100%" }}>
+                <CheckBox
+                  title="Show password"
+                  iconType="material-community"
+                  checkedIcon="checkbox-marked-circle"
+                  uncheckedIcon="checkbox-blank-circle-outline"
+                  containerStyle={{
+                    backgroundColor: "transparent",
+                    borderWidth: 0
+                  }}
+                  textStyle={{ fontSize: totalSize(1.8), fontWeight: "normal" }}
+                  size={totalSize(2.5)}
+                  checked={this.state.checked}
+                  checkedColor={colors.SPA_redColor}
+                  onPress={() =>
+                    this.setState({
+                      checked: true,
+                      userType: "user"
+                    })
+                  }
+                />
+                <View>
+                  <Text
+                    style={[
+                      styles.welcome,
+                      {
+                        fontSize: totalSize(2),
+                        color: colors.redColor
+                      }
+                    ]}
+                  >
+                    Can't be logged in into more than 1 device !
+                  </Text>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.onLoginFunc()}
+                >
+                  <View style={styles.btnTxtContainer}>
+                    {this.state.loading === true ? (
+                      <ActivityIndicator size={"small"} color="white" />
+                    ) : (
+                      <Text style={styles.btnTxt}>LOG IN</Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              </View>
+
               {/* <View style={[styles.InputContainer, { backgroundColor: 'transparent', elevation: 0, justifyContent: 'flex-start', marginVertical: height(1) }]}>
                                 <CheckBox
                                     title='Client'
@@ -234,20 +255,6 @@ class Login extends Component {
               {/* <View style={[styles.InputContainer, { borderColor: 'transparent', justifyContent: 'flex-end', marginVertical: 0 }]}>
                                 <Text style={[styles.welcome, { fontSize: totalSize(1.5), color: colors.Offeeblue }]} onPress={() => this._toggleModalForgetPassword()} >Forgot Password?</Text>
                             </View> */}
-              <View style={styles.btnContainer}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.onLoginFunc()}
-                >
-                  <View style={styles.btnTxtContainer}>
-                    {this.state.loading === true ? (
-                      <ActivityIndicator size={"small"} color="white" />
-                    ) : (
-                      <Text style={styles.btnTxt}>Login</Text>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              </View>
             </View>
           </ScrollView>
         </View>
@@ -557,7 +564,7 @@ const styles = StyleSheet.create({
   },
   btnTxt: {
     fontSize: totalSize(2.5),
-    color: "white"
+    color: colors.redColor
   },
 
   btnContainer: {
@@ -589,8 +596,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     //backgroundColor: 'rgb(180,210,53)',
     //backgroundColor: 'rgb(0,173,238)',
-    backgroundColor: colors.Offeeblue,
-    marginVertical: height(5),
+    backgroundColor: colors.redColor,
+    marginVertical: height(2),
     elevation: 5,
     borderRadius: 2.5
   }
