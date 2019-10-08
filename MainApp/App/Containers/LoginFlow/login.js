@@ -134,7 +134,6 @@ class Login extends Component {
                                 </TouchableOpacity>
                             </View> */}
               <View style={styles.InputContainer}>
-                <Icon name="email" color="gray" size={totalSize(3)} />
                 <TextInput
                   onChangeText={value => this.setState({ username: value })}
                   placeholder="EMAIL"
@@ -143,8 +142,8 @@ class Login extends Component {
                   style={styles.TxtInput}
                 />
               </View>
+
               <View style={styles.InputContainer}>
-                <Icon name="lock" color="gray" size={totalSize(3)} />
                 <TextInput
                   placeholder="PASSWORD"
                   placeholderTextColor="rgb(217,217,217)"
@@ -163,32 +162,21 @@ class Login extends Component {
                   underlineActiveHeight={2}
                   underlineHeight={1}
                 />
-                <Icon
-                  style={styles.icon}
-                  name={this.state.icEye}
-                  size={totalSize(3)}
-                  color={componentColors.password_icon_color}
-                  onPress={this.changePwdType}
-                />
               </View>
               <View style={{ width: "100%" }}>
                 <CheckBox
                   title="Show password"
-                  iconType="material-community"
-                  checkedIcon="checkbox-marked-circle"
-                  uncheckedIcon="checkbox-blank-circle-outline"
                   containerStyle={{
                     backgroundColor: "transparent",
                     borderWidth: 0
                   }}
-                  textStyle={{ fontSize: totalSize(1.8), fontWeight: "normal" }}
-                  size={totalSize(2.5)}
+                  textStyle={{ fontSize: totalSize(2), fontWeight: "normal" }}
+                  size={totalSize(3)}
                   checked={this.state.checked}
-                  checkedColor={colors.SPA_redColor}
+                  checkedColor={colors.Offeeblue}
                   onPress={() =>
                     this.setState({
-                      checked: true,
-                      userType: "user"
+                      checked: !this.state.checked
                     })
                   }
                 />
@@ -198,11 +186,12 @@ class Login extends Component {
                       styles.welcome,
                       {
                         fontSize: totalSize(2),
-                        color: colors.redColor
+                        color: colors.Offeeblue,
+                        marginLeft: totalSize(2)
                       }
                     ]}
                   >
-                    Can't be logged in into more than 1 device !
+                    Can't be logged into more than 1 device !
                   </Text>
                 </View>
 
@@ -212,49 +201,16 @@ class Login extends Component {
                 >
                   <View style={styles.btnTxtContainer}>
                     {this.state.loading === true ? (
-                      <ActivityIndicator size={"small"} color="white" />
+                      <ActivityIndicator
+                        size={"small"}
+                        color={colors.Offeeblue}
+                      />
                     ) : (
                       <Text style={styles.btnTxt}>LOG IN</Text>
                     )}
                   </View>
                 </TouchableOpacity>
               </View>
-
-              {/* <View style={[styles.InputContainer, { backgroundColor: 'transparent', elevation: 0, justifyContent: 'flex-start', marginVertical: height(1) }]}>
-                                <CheckBox
-                                    title='Client'
-                                    iconType='material-community'
-                                    checkedIcon='checkbox-marked-circle'
-                                    uncheckedIcon='checkbox-blank-circle-outline'
-                                    containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
-                                    textStyle={{ fontSize: totalSize(1.8), fontWeight: 'normal' }}
-                                    size={totalSize(2.5)}
-                                    checked={this.state.checked}
-                                    checkedColor={colors.SPA_redColor}
-                                    onPress={() => this.setState({
-                                        checked: true,
-                                        userType: 'user'
-                                    })}
-                                />
-                                <CheckBox
-                                    title='Technician'
-                                    iconType='material-community'
-                                    checkedIcon='checkbox-marked-circle'
-                                    uncheckedIcon='checkbox-blank-circle-outline'
-                                    containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
-                                    textStyle={{ fontSize: totalSize(1.8), fontWeight: 'normal' }}
-                                    size={totalSize(2.5)}
-                                    checked={!this.state.checked}
-                                    checkedColor={colors.SPA_redColor}
-                                    onPress={() => this.setState({
-                                        checked: false,
-                                        userType: 'company'
-                                    })}
-                                />
-                            </View> */}
-              {/* <View style={[styles.InputContainer, { borderColor: 'transparent', justifyContent: 'flex-end', marginVertical: 0 }]}>
-                                <Text style={[styles.welcome, { fontSize: totalSize(1.5), color: colors.Offeeblue }]} onPress={() => this._toggleModalForgetPassword()} >Forgot Password?</Text>
-                            </View> */}
             </View>
           </ScrollView>
         </View>
@@ -309,7 +265,7 @@ class Login extends Component {
                       borderRadius: 0
                     }}
                   >
-                    <Icon name="close" color={colors.redColor} />
+                    <Icon name="close" color={colors.Offeeblue} />
                   </TouchableOpacity>
                   <View style={{ width: 5 }}></View>
                 </View>
@@ -450,11 +406,6 @@ class Login extends Component {
                     Account
                   </Text>
                 </View>
-                {/* <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
-                                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent' }}>
-                                            <Text style={[styles.welcome, { fontSize: totalSize(3), color: colors.Offeeblue }]} onPress={() => this.goto_signup()}>Sign Up Now</Text>
-                                        </View>
-                                    </View> */}
                 <View
                   style={{
                     flex: 1,
@@ -462,11 +413,7 @@ class Login extends Component {
                     alignItems: "center",
                     backgroundColor: "transparent"
                   }}
-                >
-                  {/* <TouchableOpacity  style={[styles.button, { height: height(6), width: width(40) }]}>
-                                            <Text style={{ fontSize: totalSize(2), color: 'white' }}>Send</Text>
-                                        </TouchableOpacity> */}
-                </View>
+                ></View>
               </View>
             )}
           </View>
@@ -501,24 +448,24 @@ const styles = StyleSheet.create({
     width: totalSize(12.5)
   },
   TxtInput: {
-    width: width(70),
+    width: width(80),
     height: height(6),
     //alignItems: 'center',
     //justifyContent: 'center',
     //backgroundColor: 'red',
-    fontSize: totalSize(1.5)
+    fontSize: totalSize(2)
     //color: 'rgb(217,217,217)'
     //color: 'rgb(180,210,53)',
     //marginVertical:height(2),
     //borderRadius: 25,
   },
   TxtInputPassword: {
-    width: width(64),
+    width: width(80),
     height: height(6),
     //alignItems: 'center',
     //justifyContent: 'center',
     //backgroundColor: 'red',
-    fontSize: totalSize(1.5)
+    fontSize: totalSize(2)
     //color: 'rgb(217,217,217)'
     //color: 'rgb(180,210,53)',
     //marginVertical:height(2),
@@ -563,8 +510,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   btnTxt: {
-    fontSize: totalSize(2.5),
-    color: colors.redColor
+    fontSize: totalSize(2.2),
+    color: colors.Offeeblue
   },
 
   btnContainer: {
@@ -574,7 +521,7 @@ const styles = StyleSheet.create({
   },
   InputContainer: {
     flexDirection: "row",
-    width: width(80),
+    width: width(90),
     height: height(7),
     alignItems: "center",
     justifyContent: "center",
@@ -585,20 +532,22 @@ const styles = StyleSheet.create({
     // elevation: 2,
     borderRadius: 2.5,
     marginVertical: height(2),
-    borderWidth: 1,
-    //borderColor: 'rgb(180,210,53)'
+    borderBottomWidth: 1,
     borderColor: colors.Offeeblue
   },
   button: {
-    width: width(80),
-    height: height(7),
+    width: width(90),
+    height: height(5),
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     //backgroundColor: 'rgb(180,210,53)',
     //backgroundColor: 'rgb(0,173,238)',
-    backgroundColor: colors.redColor,
-    marginVertical: height(2),
-    elevation: 5,
+    //backgroundColor: colors.redColor,
+    borderColor: colors.Offeeblue,
+    borderWidth: 1,
+    marginVertical: height(3),
+    elevation: 1,
     borderRadius: 2.5
   }
 });
