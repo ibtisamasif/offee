@@ -98,48 +98,16 @@ export class TestTabs extends Component {
 
     render() {
         return (
-            <ScrollableTabView
-                tabBarUnderlineStyle={{ height: 1 }}
-                tabBarInactiveTextColor={colors.steel}
-                tabBarActiveTextColor='black'
-                locked={false}
-                initialPage={1}
-                renderTabBar={() => <ScrollableTabBar />}
-            >
-                <ScrollView>
-                    {
-                        this.state.test_category.map((item, key) => {
-                            return (
-                                <TouchableOpacity key={key} style={styles.mainBtn}
-                                >
-                                    <View style={styles.btnIconContainer}>
-                                        <View style={{ width: totalSize(6), height: totalSize(6), borderRadius: 100, backgroundColor: colors.Offeeblue, alignItems: 'center', justifyContent: 'center' }}>
-                                            <Icon name="clipboard-text" size={totalSize(3)} color='white' type='material-community' />
-                                        </View>
-                                    </View>
-                                    <View style={styles.btnTxtContainer}>
-                                        <Text style={styles.btnTxt1}>{item.category}</Text>
-                                        <Text style={styles.btnTxt2}>1/11</Text>
-                                    </View>
-                                    <View style={styles.arrowContainer}>
-                                        <Icon name="ios-arrow-forward" size={totalSize(2.5)} color='gray' type='ionicon' />
-                                    </View>
-                                </TouchableOpacity>
-                            )
-                        })
-                    }
-                </ScrollView>
-                {
-                    this.state.test_category.map((item, key) => {
-                        return (
-                            <ScrollView key={key} tabLabel={item.category}>
-                                <TestsList />
-                            </ScrollView>
-                        )
-                    })
-                }
-
-            </ScrollableTabView>
+            <View>{
+                this.state.test_category.map((item, key) => {
+                    return (
+                        <ScrollView key={key} tabLabel={item.category}>
+                            <TestsList />
+                        </ScrollView>
+                    )
+                })
+            }
+            </View>
         );
     }
 }
@@ -180,10 +148,10 @@ export class TestsList extends Component {
             <View style={styles.Maincontainer}>
 
                 <View style={styles.container}>
-                    <ScrollView horizontal={true} tabLabel='IBPS Clerk'>
+                    <View tabLabel='IBPS Clerk'>
                         {
                             <View style={{ alignItems: 'center' }}>
-                                <ScrollView horizontal={true} >
+                                <ScrollView >
                                     {
                                         this.state.tests.map((item, key) => {
                                             return (
@@ -240,7 +208,7 @@ export class TestsList extends Component {
                             </View>
 
                         }
-                    </ScrollView>
+                    </View>
                 </View>
             </View>
         );
