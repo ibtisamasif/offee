@@ -10,7 +10,7 @@ import { getQuestions, submitAnswers } from '../../../backend/ApiAxios'
 import { normalize } from '../../../helper/normalizeFont'
 
 _this = null
-class McqScreen extends Component {
+class MCQ extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -490,7 +490,7 @@ class McqScreen extends Component {
     }
 }
 
-export default McqScreen;
+export default MCQ;
 
 const styles = StyleSheet.create({
     MainContainer: {

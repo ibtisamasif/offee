@@ -7,7 +7,7 @@ import Login from "../Containers/LoginFlow/login";
 import Splash from "../Containers/splash";
 import TestInstructions from "../Containers/MainFlow/Tests/testInstructions";
 import Tests from "../Containers/MainFlow/Tests/tests";
-import McqScreen from "../Containers/MainFlow/Tests/McqScreen";
+import MCQ from "../Containers/MainFlow/Tests/mcqScreen";
 import TestResult from "../Containers/MainFlow/Tests/testResult";
 import Notification from "../Containers/MainFlow/Home/notification";
 const AuthStack = createStackNavigator({
@@ -30,7 +30,7 @@ const AppStack = createStackNavigator({
     }
   },
   mcqScreen: {
-    screen: McqScreen,
+    screen: MCQ,
     navigationOptions: {
       header: null
     }
