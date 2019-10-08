@@ -8,8 +8,6 @@ import { subjectList } from '../../../backend/ApiAxios'
 import Storage from '../../../helper/asyncStorage'
 import RNLockTask from 'react-native-lock-task';
 
-
-import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-tab-view';
 _this = null;
 export default class Tests extends Component {
     constructor(props) {
@@ -33,16 +31,10 @@ export default class Tests extends Component {
         return (
             <View style={styles.Maincontainer}>
                 <View style={styles.header}>
-                    <View style={styles.headerIconContainer}>
-                        <Icon name='menu' color='white' onPress={() => this.props.navigation.openDrawer()} />
-                    </View>
                     <View style={{ flex: 5.5, justifyContent: 'center' }}>
                         <View>
-                            <Text style={{ fontSize: totalSize(2), color: 'white', fontWeight: 'bold' }} >Live Tests</Text>
+                            <Text style={{ fontSize: totalSize(2), color: 'white', fontWeight: 'bold', marginLeft: totalSize(2) }} >Offee</Text>
                         </View>
-                    </View>
-                    <View style={styles.headerIconContainer}>
-                        <Icon name='search' color='white' />
                     </View>
                     <View style={styles.headerIconContainer}>
                         <Icon name='sign-out' color='white' type='octicon' size={totalSize(3)} onPress={() => this._toggleModalLogout()} />

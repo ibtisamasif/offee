@@ -4,14 +4,13 @@ import { Icon } from 'react-native-elements'
 import { height, width, totalSize } from 'react-native-dimension'
 import colors from '../../../Themes/Colors';
 import CountDown from 'react-native-countdown-component';
-// import * as Progress from 'react-native-progress';
 import Modal from 'react-native-modal'
 import { FlatGrid } from 'react-native-super-grid';
 import { getQuestions, submitAnswers } from '../../../backend/ApiAxios'
 import { normalize } from '../../../helper/normalizeFont'
 
 _this = null
-class MCQ extends Component {
+class McqScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -177,17 +176,13 @@ class MCQ extends Component {
     submitTest = () => {
         this._toggleModalSubmit()
         this._toggleModalQuestions()
-
         let quizActivity = this.props.navigation.getParam("quizActivity");
-        // console.log("quizActivity: ", quizActivity.user_activity)
-        // console.log("QuestionsArray: ", this.state.questions)
-
         let callback = submitAnswers(this.state.quiz.id, quizActivity.user_activity, this.state.questions);
         console.log("callback", callback)
         // if (callback) {
-        // if (callback.status = "0") {
-        this.props.navigation.replace('testResult')
-        // }
+            // if (callback.status = "0") {
+                this.props.navigation.replace('testResult')
+            // }
         // }
     }
 
@@ -220,9 +215,6 @@ class MCQ extends Component {
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.MainContainer}>
                         <View style={styles.header}>
-                            {/* <View style={styles.headerIconContainer}>
-                            <Progress.Circle progress={this.state.timeProgress} thickness={0} size={totalSize(5)} unfilledColor='gray' color='white' />
-                        </View> */}
                             <View style={{ flex: 5.5, justifyContent: 'center', alignItems: 'flex-start', backgroundColor: 'transparent' }}>
                                 <View>
                                     <CountDown
@@ -498,7 +490,7 @@ class MCQ extends Component {
     }
 }
 
-export default MCQ;
+export default McqScreen;
 
 const styles = StyleSheet.create({
     MainContainer: {
@@ -508,7 +500,6 @@ const styles = StyleSheet.create({
     header: {
         flex: .1,
         flexDirection: 'row',
-        //backgroundColor: colors.Offeeblue
         backgroundColor: 'black'
     },
     headerIconContainer: {
@@ -537,9 +528,7 @@ const styles = StyleSheet.create({
     },
     h4: {
         fontSize: totalSize(1.5),
-        color: 'gray',
-
-        //marginVertical: height(0.5)
+        color: 'gray'
     },
     button: {
         height: height(6),
@@ -551,7 +540,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     getCircleStyle(item) {
-        // console.log('item', item)
         if (item.isMark) {
             return {
                 height: totalSize(4.6), width: totalSize(4.6), alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: 100, borderColor: colors.redColor, backgroundColor: item.status === 1 ? colors.transparentBlue : colors.transparent
