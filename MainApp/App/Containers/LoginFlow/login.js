@@ -27,7 +27,7 @@ class Login extends Component {
       isModalVisibleForgetPassword: false,
       IsModalVisibleSelectSignUp: false,
       icEye: "visibility-off",
-      showPassword: true,
+      showPassword: false,
       errorMessage: ""
     };
   }
@@ -138,7 +138,7 @@ class Login extends Component {
                   label={this.props.label}
                   value={this.state.password}
                   onChangeText={this.handlePassword}
-                  secureTextEntry={this.state.showPassword}
+                  secureTextEntry={!this.state.showPassword}
                   labelActiveColor={componentColors.password_icon_color}
                   labelColor={componentColors.password_icon_color}
                   placeholderColor={componentColors.password_icon_color}
@@ -190,8 +190,8 @@ class Login extends Component {
                         color={colors.Offeeblue}
                       />
                     ) : (
-                      <Text style={styles.btnTxt}>LOG IN</Text>
-                    )}
+                        <Text style={styles.btnTxt}>LOG IN</Text>
+                      )}
                   </View>
                 </TouchableOpacity>
               </View>

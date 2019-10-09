@@ -76,11 +76,10 @@ export default class Tests extends Component {
               size={totalSize(3)}
               onPress={() => this._toggleModalLogout()}
             />
-            {/* <Icon name='dots-three-vertical' color='white' type='entypo' /> */}
           </View>
         </View>
         <View style={styles.container}>
-          <TestTabs />
+          <TestsList />
         </View>
         <Modal
           isVisible={this.state.isModalVisibleLogout} // Logout User
@@ -156,35 +155,6 @@ export default class Tests extends Component {
             </View>
           </View>
         </Modal>
-      </View>
-    );
-  }
-}
-export class TestTabs extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      test_category: [
-        { id: 1, category: "ISSB Army" },
-        { id: 2, category: "IDBI Executive" },
-        { id: 3, category: "SBI Clerk" },
-        { id: 4, category: "IBPS Clerk" },
-        { id: 5, category: "RRB Office Assistant" },
-        { id: 6, category: "J&K Bank Clerk" }
-      ]
-    };
-  }
-
-  render() {
-    return (
-      <View>
-        {this.state.test_category.map((item, key) => {
-          return (
-            <ScrollView key={key} tabLabel={item.category}>
-              <TestsList />
-            </ScrollView>
-          );
-        })}
       </View>
     );
   }
@@ -453,23 +423,15 @@ export class TestsList extends Component {
                         >
                           <TouchableOpacity
                             onPress={() => this.EnterToTest(item)}
-                            style={{
-                              backgroundColor: colors.Offeeblue,
-                              borderRadius: 2.5,
-                              height: height(5),
-                              width: width(50),
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}
+                            style={styles.button}
                           >
+                          <View style={styles.btnTxtContainer}>
                             <Text
-                              style={[
-                                styles.h3,
-                                { color: "white", fontWeight: "bold" }
-                              ]}
+                              style={styles.btnTxt}
                             >
                               Enter Now
                             </Text>
+                          </View>
                           </TouchableOpacity>
                         </View>
                       </View>
@@ -492,8 +454,7 @@ const styles = StyleSheet.create({
   header: {
     flex: 0.1,
     flexDirection: "row",
-    //backgroundColor: colors.Offeeblue
-    backgroundColor: "black"
+    backgroundColor: colors.Offeeblue
   },
   headerIconContainer: {
     flex: 1.5,
@@ -522,30 +483,29 @@ const styles = StyleSheet.create({
     fontSize: totalSize(1.5),
     color: "gray"
   },
-  mainBtn: {
-    flexDirection: "row",
-    height: height(10),
-    width: width(90),
-    borderBottomWidth: 0.5,
-    borderColor: "rgb(217,217,217)",
-    alignItems: "center"
-  },
   btnIconContainer: {
     height: height(15),
     width: width(15),
     justifyContent: "center"
   },
   btnTxtContainer: {
-    height: height(15),
-    width: width(65),
-    justifyContent: "center"
-  },
-  btnTxt1: { fontSize: totalSize(2), color: "black" },
-  btnTxt2: { fontSize: totalSize(1.5), color: "gray" },
-  arrowContainer: {
-    width: width(10),
-    height: height(15),
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
-  }
+  },
+  button: {
+    width: width(40),
+    height: height(4),
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: colors.Offeeblue,
+    borderWidth: 1,
+    elevation: 1,
+    borderRadius: 2.5
+  },
+  btnTxt: {
+    fontSize: totalSize(2),
+    color: colors.Offeeblue
+  },
 });
