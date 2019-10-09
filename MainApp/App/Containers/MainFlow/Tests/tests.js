@@ -13,6 +13,7 @@ import colors from "../../../Themes/Colors";
 import Modal from "react-native-modal";
 import { subjectList } from "../../../backend/ApiAxios";
 import Storage from "../../../helper/asyncStorage";
+import TestInstructions from "./testInstructions";
 
 _this = null;
 export default class Tests extends Component {
@@ -81,6 +82,7 @@ export default class Tests extends Component {
         <View style={styles.container}>
           <TestsList />
         </View>
+
         <Modal
           isVisible={this.state.isModalVisibleLogout} // Logout User
           animationIn="slideInUp"
@@ -164,6 +166,7 @@ export class TestsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      instructionModalVisible: false,
       tests: [
         {
           id: 1,
@@ -242,6 +245,136 @@ export class TestsList extends Component {
   render() {
     return (
       <View style={styles.Maincontainer}>
+        <Modal
+          visible={this.state.instructionModalVisible}
+          transparent
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          backdropColor="black"
+          animationInTiming={250}
+          animationOutTiming={250}
+          backdropOpacity={0.5}
+        >
+          <View style={styles.MainModalContainer}>
+            <View style={{ backgroundColor: "#fff" }}>
+              <View style={[styles.botton, { marginBottom: height(1) }]}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={[styles.h2, { color: "white" }]}>
+                    Begin Test !!
+                  </Text>
+                </View>
+              </View>
+              {/* <View style={{ marginVertical: height(2) }}>
+              <Text style={styles.h2}> {this.state.data.quiz_name} </Text>
+            </View> */}
+              <View
+                style={{
+                  width: width(90),
+                  alignItems: "center",
+                  borderBottomWidth: 0.6
+                }}
+              >
+                <Text style={[styles.h3, { marginBottom: height(1) }]}>
+                  Are you sure you want to begin the test ?
+                </Text>
+              </View>
+              <View
+                style={{
+                  width: width(90)
+                  //alignItems: "center",
+                }}
+              >
+                <Text
+                  style={[
+                    styles.h4,
+                    {
+                      marginHorizontal: totalSize(1.2),
+                      marginTop: totalSize(1)
+                    }
+                  ]}
+                >
+                  You won't be able to un-submit the test once you start.
+                </Text>
+                <Text
+                  style={[
+                    styles.h4,
+                    {
+                      marginHorizontal: totalSize(1.2),
+                      //marginBottom: totalSize(1),
+                      fontWeight: "bold"
+                    }
+                  ]}
+                >
+                  Instructions :
+                </Text>
+                <View
+                  style={{
+                    flexWrap: "wrap"
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.h4,
+                      {
+                        marginHorizontal: totalSize(1.2),
+                        //marginBottom: totalSize(1),
+                        fontWeight: "bold"
+                      }
+                    ]}
+                  >
+                    Do not minimize once you begin the test your activities are
+                    monitored
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexWrap: "wrap"
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.h4,
+                      {
+                        marginHorizontal: totalSize(1.2),
+                        marginBottom: totalSize(1),
+                        fontWeight: "bold"
+                      }
+                    ]}
+                  >
+                    Do not use calculator in phone
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={{ flexDirection: "row", justifyContent: "space-around" }}
+              >
+                <TouchableOpacity
+                  style={styles.customButton}
+                  //onPress={() => this.quizActivity()}
+                  onPress={() => this.onBegin()} //Or whatever api should be called. now skip instruction screen. enter in test directly.
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={[styles.h3]}>Begin Test</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.customButton}
+                  onPress={() =>
+                    this.setState({
+                      instructionModalVisible: !this.state
+                        .instructionModalVisible
+                    })
+                  }
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={[styles.h3]}>Cancel</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.container}>
           <View tabLabel="IBPS Clerk">
             {
@@ -252,186 +385,42 @@ export class TestsList extends Component {
                       <View
                         key={key}
                         style={{
-                          width: width(60),
+                          width: width(90),
                           backgroundColor: "white",
                           alignItems: "center",
-                          marginVertical: totalSize(2),
+                          marginVertical: totalSize(1.3),
                           marginHorizontal: totalSize(0.5),
-                          elevation: 2
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          borderRadius: 5,
+                          elevation: 3
                         }}
                       >
                         <View
                           style={{
-                            width: width(50),
-                            marginVertical: totalSize(2)
+                            //width: width(50),
+                            marginLeft: totalSize(1.5)
                           }}
                         >
                           <Text style={[styles.h2]}>{item.quiz_name}</Text>
                         </View>
                         <View
                           style={{
-                            width: width(50),
-                            flexDirection: "row",
-                            alignItems: "center",
-                            marginVertical: totalSize(1)
-                          }}
-                        >
-                          <Icon
-                            name="clock"
-                            type="octicon"
-                            color="gray"
-                            size={totalSize(1.5)}
-                          />
-                          <Text style={styles.h4}>
-                            {" "}
-                            Starts on: {item.expiry}
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            width: width(50),
-                            marginVertical: totalSize(1)
-                          }}
-                        >
-                          <TouchableOpacity
-                            style={{
-                              backgroundColor: "gray",
-                              borderRadius: 100,
-                              height: height(3),
-                              width: width(20),
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}
-                          >
-                            <Text style={[styles.h4, { color: "white" }]}>
-                              {item.tag}
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                        <View
-                          style={{
-                            width: width(50),
-                            marginVertical: totalSize(0.5)
-                          }}
-                        >
-                          <Text
-                            style={[styles.h4, { color: colors.Offeeblue }]}
-                          >
-                            Syllabus Info
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            width: width(50),
-                            borderBottomWidth: 0.5,
-                            borderBottomColor: colors.steel,
-                            flexDirection: "row"
-                          }}
-                        >
-                          <View style={{ flex: 1 }}>
-                            <Text
-                              style={[
-                                styles.h4,
-                                { marginVertical: totalSize(1.5) }
-                              ]}
-                            >
-                              Questions
-                            </Text>
-                          </View>
-                          <View style={{ flex: 1, alignItems: "flex-end" }}>
-                            <Text
-                              style={[
-                                styles.h4,
-                                {
-                                  color: "black",
-                                  fontWeight: "bold",
-                                  marginVertical: totalSize(1.5)
-                                }
-                              ]}
-                            >
-                              {item.questions}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            width: width(50),
-                            borderBottomWidth: 0.5,
-                            borderBottomColor: colors.steel,
-                            flexDirection: "row"
-                          }}
-                        >
-                          <View style={{ flex: 1 }}>
-                            <Text
-                              style={[
-                                styles.h4,
-                                { marginVertical: totalSize(1.5) }
-                              ]}
-                            >
-                              Score
-                            </Text>
-                          </View>
-                          <View style={{ flex: 1, alignItems: "flex-end" }}>
-                            <Text
-                              style={[
-                                styles.h4,
-                                {
-                                  color: "black",
-                                  fontWeight: "bold",
-                                  marginVertical: totalSize(1.5)
-                                }
-                              ]}
-                            >
-                              {item.Score}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{ width: width(50), flexDirection: "row" }}
-                        >
-                          <View style={{ flex: 1 }}>
-                            <Text
-                              style={[
-                                styles.h4,
-                                { marginVertical: totalSize(1.5) }
-                              ]}
-                            >
-                              Minutes
-                            </Text>
-                          </View>
-                          <View style={{ flex: 1, alignItems: "flex-end" }}>
-                            <Text
-                              style={[
-                                styles.h4,
-                                {
-                                  color: "black",
-                                  fontWeight: "bold",
-                                  marginVertical: totalSize(1.5)
-                                }
-                              ]}
-                            >
-                              {(item.quiz_duration / 60) * 1}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            width: width(50),
+                            //width: width(30),
                             marginVertical: totalSize(1.5),
                             alignItems: "center"
                           }}
                         >
                           <TouchableOpacity
-                            onPress={() => this.EnterToTest(item)}
+                            //onPress={() => this.EnterToTest(item)}
+                            onPress={() =>
+                              this.setState({ instructionModalVisible: true })
+                            }
                             style={styles.button}
                           >
-                          <View style={styles.btnTxtContainer}>
-                            <Text
-                              style={styles.btnTxt}
-                            >
-                              Enter Now
-                            </Text>
-                          </View>
+                            <View style={styles.btnTxtContainer}>
+                              <Text style={styles.btnTxt}>Start</Text>
+                            </View>
                           </TouchableOpacity>
                         </View>
                       </View>
@@ -450,6 +439,14 @@ export class TestsList extends Component {
 const styles = StyleSheet.create({
   Maincontainer: {
     flex: 1
+  },
+  MainModalContainer: {
+    //flex: 1,
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.1)"
   },
   header: {
     flex: 0.1,
@@ -494,8 +491,9 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   button: {
-    width: width(40),
+    width: width(30),
     height: height(4),
+    marginRight: totalSize(1),
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
@@ -508,4 +506,24 @@ const styles = StyleSheet.create({
     fontSize: totalSize(2),
     color: colors.Offeeblue
   },
+  botton: {
+    height: height(6),
+    width: width(90),
+    backgroundColor: colors.Offeeblue,
+    borderRadius: 2,
+    elevation: 2,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  customButton: {
+    height: height(6),
+    width: width(44),
+    marginBottom: totalSize(0.5),
+    borderColor: colors.Offeeblue,
+    borderWidth: 1,
+    borderRadius: 2,
+    elevation: 2,
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
