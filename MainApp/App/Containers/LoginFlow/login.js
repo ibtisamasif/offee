@@ -124,7 +124,7 @@ class Login extends Component {
                   placeholder="EMAIL"
                   placeholderTextColor="rgb(217,217,217)"
                   underlineColorAndroid="transparent"
-                  style={styles.TxtInput}
+                  style={styles.txtInput}
                 />
               </View>
 
@@ -133,7 +133,7 @@ class Login extends Component {
                   placeholder="PASSWORD"
                   placeholderTextColor="rgb(217,217,217)"
                   underlineColorAndroid="transparent"
-                  style={styles.TxtInputPassword}
+                  style={styles.txtInputPassword}
                   onChangeText={this.handlePassword}
                   label={this.props.label}
                   value={this.state.password}
@@ -168,7 +168,6 @@ class Login extends Component {
                 <View>
                   <Text
                     style={[
-                      styles.welcome,
                       {
                         fontSize: totalSize(2),
                         color: colors.Offeeblue,
@@ -223,12 +222,12 @@ const styles = StyleSheet.create({
     height: totalSize(15),
     width: totalSize(26)
   },
-  TxtInput: {
+  txtInput: {
     width: width(80),
     height: height(6),
     fontSize: totalSize(2)
   },
-  TxtInputPassword: {
+  txtInputPassword: {
     width: width(80),
     height: height(6),
     fontSize: totalSize(2)
@@ -236,21 +235,6 @@ const styles = StyleSheet.create({
   lowerContainer: {
     flex: 1,
     alignItems: "center"
-  },
-  txtContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: height(2)
-  },
-  welcome: {
-    fontSize: totalSize(5),
-    color: "black",
-    fontWeight: "bold"
-  },
-  instructions: {
-    fontSize: totalSize(2),
-    textAlign: "center",
-    color: "rgb(66,67,69)"
   },
   btnTxtContainer: {
     flexDirection: "row",
@@ -260,11 +244,6 @@ const styles = StyleSheet.create({
   btnTxt: {
     fontSize: totalSize(2.2),
     color: colors.Offeeblue
-  },
-
-  btnContainer: {
-    alignItems: "center",
-    justifyContent: "center"
   },
   InputContainer: {
     flexDirection: "row",
