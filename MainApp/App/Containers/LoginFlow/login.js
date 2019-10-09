@@ -23,12 +23,12 @@ class Login extends Component {
       password: "",
       loading: false,
       overlayVisible: false,
-      checked: false,
       userType: "user",
       isModalVisibleForgetPassword: false,
       IsModalVisibleSelectSignUp: false,
       icEye: "visibility-off",
-      showPassword: true
+      showPassword: true,
+      errorMessage: ""
     };
   }
 
@@ -78,13 +78,13 @@ class Login extends Component {
   async onLoginFunc() {
     const { username, password } = this.state;
     if (username == "" || password == "") {
-      alert("Email and password fields cannot be empty");
+      this.setState({
+        errorMessage: "Email and password fields cannot be empty"
+      });
     } else {
       this.setState({ loading: true });
       let callback = await login(username, password);
       this.setState({ loading: false });
-
-      console.log("callback", callback);
 
       if (callback) {
         if (callback.status == "5") {
@@ -95,7 +95,7 @@ class Login extends Component {
           callback.status == "-2" ||
           callback.status == "-1"
         ) {
-          alert(callback.message);
+          this.setState({ errorMessage: callback.message });
         }
       }
     }
@@ -157,11 +157,11 @@ class Login extends Component {
                   }}
                   textStyle={{ fontSize: totalSize(2), fontWeight: "normal" }}
                   size={totalSize(3)}
-                  checked={this.state.checked}
+                  checked={this.state.showPassword}
                   checkedColor={colors.Offeeblue}
                   onPress={() =>
                     this.setState({
-                      checked: !this.state.checked
+                      showPassword: !this.state.showPassword
                     })
                   }
                 />
@@ -176,7 +176,7 @@ class Login extends Component {
                       }
                     ]}
                   >
-                    Can't be logged into more than 1 device !
+                    {this.state.errorMessage}
                   </Text>
                 </View>
 
@@ -191,8 +191,8 @@ class Login extends Component {
                         color={colors.Offeeblue}
                       />
                     ) : (
-                        <Text style={styles.btnTxt}>LOG IN</Text>
-                      )}
+                      <Text style={styles.btnTxt}>LOG IN</Text>
+                    )}
                   </View>
                 </TouchableOpacity>
               </View>
