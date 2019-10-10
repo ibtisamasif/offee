@@ -11,9 +11,9 @@ import { Icon } from "react-native-elements";
 import { height, width, totalSize } from "react-native-dimension";
 import colors from "../../../Themes/Colors";
 import Modal from "react-native-modal";
-import { subjectList } from "../../../backend/ApiAxios";
+import { subjectList, quizActivity } from "../../../backend/ApiAxios";
 import Storage from "../../../helper/asyncStorage";
-import TestInstructions from "./testInstructions";
+import { StackActions, NavigationActions } from "react-navigation";
 
 _this = null;
 export default class Tests extends Component {
@@ -167,6 +167,7 @@ export class TestsList extends Component {
     super(props);
     this.state = {
       instructionModalVisible: false,
+      selectedTest : {},
       tests: [
         {
           id: 1,
@@ -228,18 +229,28 @@ export class TestsList extends Component {
 
   async componentDidMount() {
     let user = await Storage.getItem("user");
-    loginData = await subjectList(user.cat, user.name);
-    console.log("api data", loginData);
-    if (loginData) {
+    tests = await subjectList(user.cat, user.name);
+    console.log("api data", tests);
+    if (tests) {
       this.setState({
-        tests: loginData
+        tests: tests
       });
     }
   }
 
-  async EnterToTest(item) {
-    console.log("subject object:", item);
-    _this.props.navigation.navigate("testInstructions", { oneSubject: item });
+  async quizActivity() {
+    quizAct = await quizActivity(this.state.selectedTest);
+    console.log("callbackQuizActivity: ", quizAct);
+    const resetAction = StackActions.reset({
+      index: 0, // <-- currect active route from actions array
+      actions: [
+        NavigationActions.navigate({
+          routeName: "mcqScreen",
+          params: { item: this.state.selectedTest, quizActivity: quizAct }
+        })
+      ]
+    });
+    _this.props.navigation.dispatch(resetAction);
   }
 
   render() {
@@ -351,8 +362,7 @@ export class TestsList extends Component {
               >
                 <TouchableOpacity
                   style={styles.customButton}
-                  //onPress={() => this.quizActivity()}
-                  onPress={() => this.onBegin()} //Or whatever api should be called. now skip instruction screen. enter in test directly.
+                  onPress={() => this.quizActivity()}
                 >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={[styles.h3]}>Begin Test</Text>
@@ -412,14 +422,16 @@ export class TestsList extends Component {
                           }}
                         >
                           <TouchableOpacity
-                            //onPress={() => this.EnterToTest(item)}
-                            onPress={() =>
-                              this.setState({ instructionModalVisible: true })
-                            }
+                            onPress={() => {
+                              this.setState({
+                                instructionModalVisible: true,
+                                selectedTest: item
+                              });
+                            }}
                             style={styles.button}
                           >
                             <View style={styles.btnTxtContainer}>
-                              <Text style={styles.btnTxt}>Start</Text>
+                              <Text style={styles.btnTxt}>START</Text>
                             </View>
                           </TouchableOpacity>
                         </View>
@@ -468,8 +480,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   h2: {
-    fontSize: totalSize(2.5),
-    color: "black",
+    fontSize: totalSize(2),
+    color: "gray",
     fontWeight: "bold"
   },
   h3: {
