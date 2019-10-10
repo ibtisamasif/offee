@@ -27,7 +27,7 @@ const colors = {
   black:'#000000',
   labeltext: '#8091d0',
   redColor: 'rgb(230,57,53)',
-  Offeeblue:'#3b5998',
+  Offeeblue:'rgb(230,57,53)',
   Quizblue:'rgb(31,186,214)',
   Darkgraycolor: 'rgb(66,67,69)',
   LightRed:'rgb(255,240,240)',

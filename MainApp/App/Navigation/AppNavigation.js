@@ -4,38 +4,25 @@ import {
   createSwitchNavigator
 } from "react-navigation";
 import Login from "../Containers/LoginFlow/login";
-// import SignUp from '../Containers/LoginFlow/signup';
-import MainTab from "../Containers/ApplicationTabs/MainTab";
 import Splash from "../Containers/splash";
 import TestInstructions from "../Containers/MainFlow/Tests/testInstructions";
+import Tests from "../Containers/MainFlow/Tests/tests";
 import MCQ from "../Containers/MainFlow/Tests/mcqScreen";
 import TestResult from "../Containers/MainFlow/Tests/testResult";
 import Notification from "../Containers/MainFlow/Home/notification";
-import PracticeMCQ from "../Containers/MainFlow/Practice/PracticeMcqScreen";
-import AppDrawer from "../Containers/AppDrawer/AppDrawer";
 const AuthStack = createStackNavigator({
   login: {
     screen: Login
   }
-  // ,
-  // signup: {
-  //     screen: SignUp
-  // },
 });
 
 const AppStack = createStackNavigator({
   drawer: {
-    screen: AppDrawer,
+    screen: Tests,
     navigationOptions: {
       header: null
     }
   },
-  // MainTab: {
-  //     screen: MainTab,
-  //     navigationOptions: {
-  //         header: null
-  //     }
-  // },
   testInstructions: {
     screen: TestInstructions,
     navigationOptions: {
@@ -53,12 +40,6 @@ const AppStack = createStackNavigator({
   },
   notification: {
     screen: Notification
-  },
-  practiceMcq: {
-    screen: PracticeMCQ,
-    navigationOptions: {
-      header: null
-    }
   }
 });
 
