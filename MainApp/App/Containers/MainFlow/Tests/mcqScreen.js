@@ -114,10 +114,6 @@ class MCQ extends Component {
     }
 
     chooseOption = async (item) => {
-        var questionStatus = this.state.questions[this.state.index].status
-        if (questionStatus && questionStatus === 1) {
-            // alert('Not allowed')
-        } else {
             this.setState({ loading_click: true })
             for (let i = 0; i < this.state.questions[this.state.index].question_options.length; i++) {
                 this.state.questions[this.state.index].question_options[i].isClicked = false
@@ -138,7 +134,6 @@ class MCQ extends Component {
                 }
             }
             this.setState({ loading_click: false })
-        }
     }
 
     goToNext = () => {
