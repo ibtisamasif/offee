@@ -70,7 +70,16 @@ class MCQ extends Component {
     componentDidMount() {
         _this = this
         this.getCurrentItem();
+        this.backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.handleBackPress
+        );
     }
+
+    handleBackPress = () => {
+        alert("hello")
+        return true;
+    };
 
     async getCurrentItem() {
         let quiz = this.props.navigation.getParam("item");
