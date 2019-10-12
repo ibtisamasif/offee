@@ -167,7 +167,7 @@ export class TestsList extends Component {
     super(props);
     this.state = {
       instructionModalVisible: false,
-      selectedTest : {},
+      selectedTest: {},
       tests: [
         {
           id: 1,
@@ -265,6 +265,7 @@ export class TestsList extends Component {
           animationInTiming={250}
           animationOutTiming={250}
           backdropOpacity={0.5}
+          style={{ margin: 0 }}
         >
           <View style={styles.MainModalContainer}>
             <View style={{ backgroundColor: "#fff" }}>
@@ -292,7 +293,6 @@ export class TestsList extends Component {
               <View
                 style={{
                   width: width(90)
-                  //alignItems: "center",
                 }}
               >
                 <Text
@@ -311,7 +311,6 @@ export class TestsList extends Component {
                     styles.h4,
                     {
                       marginHorizontal: totalSize(1.2),
-                      //marginBottom: totalSize(1),
                       fontWeight: "bold"
                     }
                   ]}
@@ -328,7 +327,6 @@ export class TestsList extends Component {
                       styles.h4,
                       {
                         marginHorizontal: totalSize(1.2),
-                        //marginBottom: totalSize(1),
                         fontWeight: "bold"
                       }
                     ]}
@@ -454,11 +452,10 @@ const styles = StyleSheet.create({
   },
   MainModalContainer: {
     //flex: 1,
-    width: "100%",
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.1)"
+    backgroundColor: "rgba(0,0,0,0.4)"
   },
   header: {
     flex: 0.1,
@@ -511,7 +508,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor: colors.Offeeblue,
     borderWidth: 1,
-    elevation: 1,
     borderRadius: 2.5
   },
   btnTxt: {
@@ -534,7 +530,6 @@ const styles = StyleSheet.create({
     borderColor: colors.Offeeblue,
     borderWidth: 1,
     borderRadius: 2,
-    elevation: 2,
     alignItems: "center",
     justifyContent: "center"
   }
