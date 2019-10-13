@@ -7,7 +7,6 @@ import {
   StyleSheet,
   BackHandler
 } from "react-native";
-import { Icon } from "react-native-elements";
 import { height, width, totalSize } from "react-native-dimension";
 import colors from "../../../Themes/Colors";
 import Modal from "react-native-modal";
