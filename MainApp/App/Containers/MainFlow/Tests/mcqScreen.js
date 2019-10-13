@@ -329,7 +329,8 @@ class MCQ extends Component {
         console.log("callback", callback);
         // if (callback) {
         // if (callback.status = "0") {
-        this.props.navigation.replace("testResult");
+        ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
+        this.props.navigation.replace("drawer");
         // }
         // }
     };
@@ -350,7 +351,7 @@ class MCQ extends Component {
                             >
                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                                     <CountDown
-                                        size={totalSize(3)}
+                                        size={totalSize(2)}
                                         until={parseInt(this.state.quiz.quiz_duration, 10)}
                                         onFinish={() => alert("Finished")}
                                         digitStyle={{ backgroundColor: "transparent" }}
@@ -496,7 +497,7 @@ class MCQ extends Component {
                                     }}
                                 >
                                     <TouchableOpacity
-                                        style={styles.customButton}
+                                        style={styles.previousNextButton}
                                         onPress={() => this.goToPrevious()}
                                     >
                                         <View
@@ -504,11 +505,11 @@ class MCQ extends Component {
                                         >
                                             <Text style={[styles.h3, { color: colors.Offeeblue }]}>
                                                 Previous
-                      </Text>
+                                            </Text>
                                         </View>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styles.customButton}
+                                        style={styles.previousNextButton}
                                         onPress={() => this.goToNext()}
                                     >
                                         <View
@@ -516,7 +517,7 @@ class MCQ extends Component {
                                         >
                                             <Text style={[styles.h3, { color: colors.Offeeblue }]}>
                                                 Next
-                      </Text>
+                                            </Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -571,11 +572,6 @@ class MCQ extends Component {
                                             items={this.state.questions}
                                             renderItem={({ item }) => (
                                                 <TouchableOpacity
-                                                    style={{
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        backgroundColor: "transparent"
-                                                    }}
                                                     onPress={() =>
                                                         this.moveToSpecificQuestion(item.id - 1)
                                                     }
@@ -620,8 +616,9 @@ class MCQ extends Component {
                                 </View>
                             </View>
                         </Modal>
+
                         <Modal
-                            isVisible={this.state.IsModalVisibleSubmit} // signup
+                            isVisible={this.state.IsModalVisibleSubmit} // sumbit
                             animationIn="slideInUp"
                             animationOut="slideOutDown"
                             backdropColor="black"
@@ -629,76 +626,66 @@ class MCQ extends Component {
                             animationOutTiming={500}
                             backdropOpacity={0.5}
                         >
-                            <View
-                                style={{
-                                    backgroundColor: "white",
-                                    height: height(50),
-                                    width: width(95),
-                                    alignSelf: "center",
-                                    borderRadius: 5
-                                }}
-                            >
-                                <View style={{ flex: 1 }}>
-                                    <View
-                                        style={{
-                                            flex: 0.1,
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            backgroundColor: "transparent"
-                                        }}
-                                    >
-                                        <View style={{ width: width(80) }}>
-                                            <Text style={[styles.h3]}>Confirm Submit!!</Text>
+                            <View style={styles.MainModalContainer}>
+                                <View style={{ backgroundColor: "#fff" }}>
+                                    <View style={[styles.headerSubmitDialog, { marginBottom: height(1) }]}>
+                                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                            <Text style={[styles.h2, { color: "white" }]}>Confirm Submit!!</Text>
                                         </View>
                                     </View>
-                                    <View
-                                        style={{
-                                            flex: 0.3,
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            backgroundColor: "transparent"
-                                        }}
-                                    >
-                                        <View style={{ width: width(80) }}>
-                                            <Text style={styles.h3}>
-                                                Are you sure you want to Submit the test?
-                      </Text>
-                                        </View>
-                                        <View
-                                            style={{
-                                                flexDirection: "row",
-                                                width: width(80),
-                                                marginTop: totalSize(1)
-                                            }}
+                                    <View style={{ width: width(90), alignItems: "center", borderBottomWidth: 0.6 }}>
+                                        <Text style={[styles.h3, { marginBottom: height(1) }]}>Are you sure you want to submit the test ?</Text>
+                                    </View>
+                                    <View style={{ width: width(90) }}>
+                                    <Text style={[styles.h4,
+                                        {
+                                            marginHorizontal: totalSize(1.2),
+                                            marginTop: totalSize(0.6)
+                                        }
+                                        ]}
                                         >
-                                            <TouchableOpacity
-                                                onPress={() => this.submitTest()}
-                                                style={{
-                                                    height: height(6),
-                                                    width: width(40),
-                                                    backgroundColor: colors.Offeeblue,
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    borderRadius: 2.5
-                                                }}
-                                            >
-                                                <Text style={[styles.h3, { color: "white" }]}>Yes,Submit Test</Text>
-                                            </TouchableOpacity>
-                                            <View style={{ width: width(5) }}></View>
-                                            <TouchableOpacity
-                                                onPress={this._toggleModalSubmit}
-                                                style={{
-                                                    height: height(6),
-                                                    width: width(40),
-                                                    backgroundColor: "gray",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    borderRadius: 2.5
-                                                }}
-                                            >
-                                                <Text style={[styles.h3, { color: "white" }]}>No,Continue Test</Text>
-                                            </TouchableOpacity>
-                                        </View>
+                                            Total No of Questions:
+                                        </Text>                                        
+                                        <Text style={[styles.h4,
+                                        {
+                                            marginHorizontal: totalSize(1.2),
+                                            marginTop: totalSize(0.6)
+                                        }
+                                        ]}
+                                        >
+                                            No of questions attempted:
+                                        </Text>
+                                        <Text style={[styles.h4,
+                                        {
+                                            marginHorizontal: totalSize(1.2),
+                                            marginTop: totalSize(0.6),
+                                            marginBottom: totalSize(2)
+                                        }
+                                        ]}
+                                        >
+                                            No of questions skipped:
+                                        </Text>
+                                    </View>
+
+                                    <View
+                                        style={{ flexDirection: "row", justifyContent: "space-around" }}
+                                    >
+                                        <TouchableOpacity
+                                            style={styles.customButton}
+                                            onPress={() => this.submitTest()}
+                                        >
+                                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                <Text style={[styles.h3]}>Yes,Submit Test</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.customButton}
+                                            onPress={this._toggleModalSubmit}
+                                        >
+                                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                <Text style={[styles.h3]}>No,Continue Test</Text>
+                                            </View>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
@@ -713,9 +700,12 @@ class MCQ extends Component {
 export default MCQ;
 
 const styles = StyleSheet.create({
-    MainContainer: {
-        flex: 1,
-        alignItems: "center"
+    MainModalContainer: {
+        height: "100%",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center"
+        // backgroundColor: "rgba(0,0,0,0.4)"
     },
     header: {
         flex: 0.1,
@@ -728,7 +718,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     container: {
-        flex: 0.9,
+        flex: 1,
         backgroundColor: colors.silver
     },
     h1: {
@@ -737,20 +727,30 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     h2: {
-        fontSize: totalSize(2.5),
-        color: "black",
+        fontSize: totalSize(2),
+        color: "gray",
         fontWeight: "bold"
     },
     h3: {
         fontSize: totalSize(2),
-        color: "black",
-        fontWeight: "bold"
+        color: "black"
     },
     h4: {
         fontSize: totalSize(1.5),
         color: "gray"
     },
     button: {
+        width: width(30),
+        height: height(4),
+        marginRight: totalSize(1),
+        alignSelf: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        borderColor: colors.Offeeblue,
+        borderWidth: 1,
+        borderRadius: 5
+    },
+    headerSubmitDialog: {
         height: height(6),
         width: width(90),
         backgroundColor: colors.Offeeblue,
@@ -759,12 +759,22 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    customButton: {
+    previousNextButton: {
         height: height(6),
         width: width(47.5),
         marginBottom: totalSize(0.5),
         borderWidth: 1,
         borderRadius: 2,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    customButton: {
+        height: height(6),
+        width: width(44),
+        marginBottom: totalSize(0.5),
+        borderColor: colors.Offeeblue,
+        borderWidth: 1,
+        borderRadius: 5,
         alignItems: "center",
         justifyContent: "center"
     },
@@ -778,7 +788,7 @@ const styles = StyleSheet.create({
             borderRadius: 100,
             borderColor: "gray",
             backgroundColor:
-                item.isClicked === 1 ? colors.green : colors.transparent
+                item.status === 1 ? colors.green : colors.transparent
         };
     }
 });

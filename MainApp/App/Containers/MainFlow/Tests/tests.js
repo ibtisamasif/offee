@@ -59,7 +59,7 @@ export default class Tests extends Component {
               fontSize: totalSize(2),
               color: "white",
               fontWeight: "bold",
-              marginLeft: totalSize(2)
+              marginLeft: totalSize(2),
             }}
           >
             Offee
@@ -261,7 +261,7 @@ export class TestsList extends Component {
         >
           <View style={styles.MainModalContainer}>
             <View style={{ backgroundColor: "#fff" }}>
-              <View style={[styles.botton, { marginBottom: height(1) }]}>
+              <View style={[styles.headerBeginTest, { marginBottom: height(1) }]}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text style={[styles.h2, { color: "white" }]}>
                     Begin Test !!
@@ -417,7 +417,7 @@ export class TestsList extends Component {
                               style={styles.button} disabled={true}
                             >
                               <View style={styles.btnTxtContainer}>
-                                <Text style={styles.btnTxt}> Submitted </Text>
+                                <Text style={styles.btnTxt}> SUBMITTED </Text>
                               </View>
                             </TouchableOpacity>
                           ) : (
@@ -462,7 +462,8 @@ const styles = StyleSheet.create({
   header: {
     flex: 0.1,
     flexDirection: "row",
-    backgroundColor: colors.Offeeblue
+    backgroundColor: colors.Offeeblue,
+    alignItems: 'center'
   },
   headerIconContainer: {
     flex: 1.5,
@@ -517,7 +518,7 @@ const styles = StyleSheet.create({
     fontSize: totalSize(2),
     color: colors.Offeeblue
   },
-  botton: {
+  headerBeginTest: {
     height: height(6),
     width: width(90),
     backgroundColor: colors.Offeeblue,
