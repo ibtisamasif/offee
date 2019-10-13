@@ -265,7 +265,6 @@ const styles = StyleSheet.create({
     borderColor: colors.Offeeblue,
     borderWidth: 1,
     marginVertical: height(3),
-    elevation: 1,
     borderRadius: 2.5
   }
 });

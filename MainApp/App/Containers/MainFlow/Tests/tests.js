@@ -55,8 +55,6 @@ export default class Tests extends Component {
     return (
       <View style={styles.Maincontainer}>
         <View style={styles.header}>
-          <View style={{ flex: 5.5, justifyContent: "center" }}>
-            <View>
               <Text
                 style={{
                   fontSize: totalSize(2),
@@ -67,17 +65,6 @@ export default class Tests extends Component {
               >
                 Offee
               </Text>
-            </View>
-          </View>
-          <View style={styles.headerIconContainer}>
-            <Icon
-              name="sign-out"
-              color="white"
-              type="octicon"
-              size={totalSize(3)}
-              onPress={() => this._toggleModalLogout()}
-            />
-          </View>
         </View>
         <View style={styles.container}>
           <TestsList />
@@ -451,7 +438,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   MainModalContainer: {
-    //flex: 1,
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
@@ -497,7 +483,8 @@ const styles = StyleSheet.create({
   btnTxtContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    fontWeight: "bold"
   },
   button: {
     width: width(30),
@@ -508,7 +495,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor: colors.Offeeblue,
     borderWidth: 1,
-    borderRadius: 2.5
+    borderRadius: 5
   },
   btnTxt: {
     fontSize: totalSize(2),
@@ -529,7 +516,7 @@ const styles = StyleSheet.create({
     marginBottom: totalSize(0.5),
     borderColor: colors.Offeeblue,
     borderWidth: 1,
-    borderRadius: 2,
+    borderRadius: 5,
     alignItems: "center",
     justifyContent: "center"
   }

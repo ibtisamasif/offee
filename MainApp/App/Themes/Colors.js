@@ -31,7 +31,8 @@ const colors = {
   Quizblue:'rgb(31,186,214)',
   Darkgraycolor: 'rgb(66,67,69)',
   LightRed:'rgb(255,240,240)',
-  Green:'rgb(180,210,53)'
+  parrotGreen:'rgb(180,210,53)',
+  green:'rgb(114,190,120)'
 }
 
 export default colors

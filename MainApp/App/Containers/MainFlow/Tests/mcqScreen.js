@@ -229,13 +229,6 @@ class MCQ extends Component {
         this.setState({ quesions });
     }
 
-    setMark() {
-        var quesions = { ...this.state.questions };
-        quesions[this.state.index].isMark = !this.state.questions[this.state.index]
-            .isMark;
-        this.setState({ quesions });
-    }
-
     chooseOption = async item => {
         this.setState({ loading_click: true });
         for (
@@ -342,29 +335,6 @@ class MCQ extends Component {
     };
 
     render() {
-        var countAttempted = 0;
-        for (const [index, value] of this.state.questions.entries()) {
-            if (value.status === 1) {
-                countAttempted++;
-            }
-        }
-        var countMarkedForReview = 0;
-        for (const [index, value] of this.state.questions.entries()) {
-            if (value.isMark) {
-                countMarkedForReview++;
-            }
-        }
-        var countUnAttempted = 0;
-        countUnAttempted = this.state.questions.length - countAttempted;
-
-        var countUnSeen = 0;
-        for (const [index, value] of this.state.questions.entries()) {
-            if (!value.status) {
-                countUnSeen++;
-            }
-        }
-        countUnSeen = countUnSeen - 1;
-
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -480,14 +450,16 @@ class MCQ extends Component {
                                             <TouchableOpacity
                                                 onPress={() => this.chooseOption(item)}
                                                 style={{
-                                                    width: width(96),
+                                                    width: width(94),
                                                     borderWidth: 1,
                                                     borderRadius: 5,
+                                                    marginLeft: totalSize(1),
+                                                    marginRight: totalSize(1),
+                                                    marginTop: totalSize(2),
                                                     borderColor: item.isClicked ? "grey" : "black",
                                                     backgroundColor: item.isClicked
-                                                        ? colors.transparentBlue
-                                                        : "white",
-                                                    marginTop: totalSize(2)
+                                                        ? colors.green
+                                                        : "white"
                                                 }}
                                             >
                                                 <Text
@@ -496,7 +468,7 @@ class MCQ extends Component {
                                                         {
                                                             fontWeight: "normal",
                                                             fontSize: totalSize(2.2),
-                                                            color: "grey",
+                                                            color: "black",
                                                             margin: totalSize(0.7)
                                                         }
                                                     ]}
@@ -611,9 +583,9 @@ class MCQ extends Component {
                                                 >
                                                     <Text
                                                         style={{
-                                                            //fontSize: normalize(14),
-                                                            fontSize: totalSize(2.5),
-                                                            textAlign: "center"
+                                                            fontSize: totalSize(2.3),
+                                                            textAlign: "center",
+                                                            color: "black"
                                                         }}
                                                     >
                                                         {item.id}
@@ -639,7 +611,7 @@ class MCQ extends Component {
                                                 borderColor: colors.Offeeblue,
                                                 alignItems: "center",
                                                 justifyContent: "center",
-                                                borderRadius: 2
+                                                borderRadius: 4
                                             }}
                                         >
                                             <Text style={[styles.h3]}>SUBMIT</Text>
@@ -660,7 +632,7 @@ class MCQ extends Component {
                             <View
                                 style={{
                                     backgroundColor: "white",
-                                    height: height(70),
+                                    height: height(50),
                                     width: width(95),
                                     alignSelf: "center",
                                     borderRadius: 5
@@ -676,135 +648,7 @@ class MCQ extends Component {
                                         }}
                                     >
                                         <View style={{ width: width(80) }}>
-                                            <Text style={[styles.h3]}>Test Submission</Text>
-                                        </View>
-                                    </View>
-                                    <View style={{ flex: 0.6, backgroundColor: "transparent" }}>
-                                        <View
-                                            style={{
-                                                flex: 1,
-                                                flexDirection: "row",
-                                                backgroundColor: "transparent",
-                                                borderBottomWidth: 0.5,
-                                                borderBottomColor: colors.steel
-                                            }}
-                                        >
-                                            <View
-                                                style={{
-                                                    flex: 2,
-                                                    alignItems: "center",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Icon
-                                                    name="ios-checkmark-circle"
-                                                    type="ionicon"
-                                                    size={totalSize(3.5)}
-                                                    color="gray"
-                                                />
-                                            </View>
-                                            <View
-                                                style={{
-                                                    flex: 6,
-                                                    alignItems: "flex-start",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Text style={[styles.h4, {}]}>Attempted</Text>
-                                            </View>
-                                            <View
-                                                style={{
-                                                    flex: 2,
-                                                    alignItems: "center",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Text style={[styles.h3, {}]}>{countAttempted}</Text>
-                                            </View>
-                                        </View>
-                                        <View
-                                            style={{
-                                                flex: 1,
-                                                flexDirection: "row",
-                                                backgroundColor: "transparent",
-                                                borderBottomWidth: 0.5,
-                                                borderBottomColor: colors.steel
-                                            }}
-                                        >
-                                            <View
-                                                style={{
-                                                    flex: 2,
-                                                    alignItems: "center",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Icon
-                                                    name="md-remove-circle"
-                                                    type="ionicon"
-                                                    size={totalSize(3.5)}
-                                                    color="gray"
-                                                />
-                                            </View>
-                                            <View
-                                                style={{
-                                                    flex: 6,
-                                                    alignItems: "flex-start",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Text style={[styles.h4, {}]}>Unattempted</Text>
-                                            </View>
-                                            <View
-                                                style={{
-                                                    flex: 2,
-                                                    alignItems: "center",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Text style={[styles.h3, {}]}>{countUnAttempted}</Text>
-                                            </View>
-                                        </View>
-                                        <View
-                                            style={{
-                                                flex: 1,
-                                                flexDirection: "row",
-                                                backgroundColor: "transparent"
-                                            }}
-                                        >
-                                            <View
-                                                style={{
-                                                    flex: 2,
-                                                    alignItems: "center",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Icon
-                                                    name="ios-star"
-                                                    type="ionicon"
-                                                    size={totalSize(3.5)}
-                                                    color="gray"
-                                                />
-                                            </View>
-                                            <View
-                                                style={{
-                                                    flex: 6,
-                                                    alignItems: "flex-start",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Text style={[styles.h4, {}]}>Marked</Text>
-                                            </View>
-                                            <View
-                                                style={{
-                                                    flex: 2,
-                                                    alignItems: "center",
-                                                    justifyContent: "center"
-                                                }}
-                                            >
-                                                <Text style={[styles.h3, {}]}>
-                                                    {countMarkedForReview}
-                                                </Text>
-                                            </View>
+                                            <Text style={[styles.h3]}>Confirm Submit!!</Text>
                                         </View>
                                     </View>
                                     <View
@@ -831,28 +675,28 @@ class MCQ extends Component {
                                                 onPress={() => this.submitTest()}
                                                 style={{
                                                     height: height(6),
-                                                    width: width(20),
+                                                    width: width(40),
                                                     backgroundColor: colors.Offeeblue,
                                                     alignItems: "center",
                                                     justifyContent: "center",
                                                     borderRadius: 2.5
                                                 }}
                                             >
-                                                <Text style={[styles.h3, { color: "white" }]}>Yes</Text>
+                                                <Text style={[styles.h3, { color: "white" }]}>Yes,Submit Test</Text>
                                             </TouchableOpacity>
                                             <View style={{ width: width(5) }}></View>
                                             <TouchableOpacity
                                                 onPress={this._toggleModalSubmit}
                                                 style={{
                                                     height: height(6),
-                                                    width: width(20),
+                                                    width: width(40),
                                                     backgroundColor: "gray",
                                                     alignItems: "center",
                                                     justifyContent: "center",
                                                     borderRadius: 2.5
                                                 }}
                                             >
-                                                <Text style={[styles.h3, { color: "white" }]}>No</Text>
+                                                <Text style={[styles.h3, { color: "white" }]}>No,Continue Test</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
@@ -919,43 +763,22 @@ const styles = StyleSheet.create({
         height: height(6),
         width: width(47.5),
         marginBottom: totalSize(0.5),
-        //borderColor: colors.Offeeblue,
         borderWidth: 1,
         borderRadius: 2,
-        //elevation: 2,
         alignItems: "center",
         justifyContent: "center"
     },
     getCircleStyle(item) {
-        if (item.isMark) {
-            return {
-                height: totalSize(5),
-                width: totalSize(5),
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderRadius: 100,
-                borderColor: colors.redColor,
-                backgroundColor:
-                    item.status === 1 ? colors.transparentBlue : colors.transparent
-            };
-        } else {
-            return {
-                height: totalSize(5),
-                width: totalSize(5),
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderRadius: 100,
-                borderColor: "black",
-                // item.status === 1
-                //   ? colors.Quizblue
-                //   : item.status === 3
-                //   ? colors.silver
-                //   : colors.silver,
-                backgroundColor:
-                    item.status === 1 ? colors.transparentBlue : colors.transparent
-            };
-        }
+        return {
+            height: totalSize(5),
+            width: totalSize(5),
+            alignItems: "center",
+            justifyContent: "center",
+            borderWidth: 1,
+            borderRadius: 100,
+            borderColor: "gray",
+            backgroundColor:
+                item.isClicked === 1 ? colors.green : colors.transparent
+        };
     }
 });
