@@ -54,16 +54,16 @@ export default class Tests extends Component {
     return (
       <View style={styles.Maincontainer}>
         <View style={styles.header}>
-              <Text
-                style={{
-                  fontSize: totalSize(2),
-                  color: "white",
-                  fontWeight: "bold",
-                  marginLeft: totalSize(2)
-                }}
-              >
-                Offee
-              </Text>
+          <Text
+            style={{
+              fontSize: totalSize(2),
+              color: "white",
+              fontWeight: "bold",
+              marginLeft: totalSize(2)
+            }}
+          >
+            Offee
+          </Text>
         </View>
         <View style={styles.container}>
           <TestsList />
@@ -162,7 +162,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 2,
@@ -171,7 +172,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 3,
@@ -180,7 +182,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 4,
@@ -189,7 +192,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 5,
@@ -198,7 +202,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 6,
@@ -207,7 +212,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: null
         }
       ]
     };
@@ -375,6 +381,7 @@ export class TestsList extends Component {
               <View style={{ alignItems: "center" }}>
                 <ScrollView>
                   {this.state.tests.map((item, key) => {
+                    const isAnswered = item.answered;
                     return (
                       <View
                         key={key}
@@ -405,19 +412,29 @@ export class TestsList extends Component {
                             alignItems: "center"
                           }}
                         >
-                          <TouchableOpacity
-                            onPress={() => {
-                              this.setState({
-                                instructionModalVisible: true,
-                                selectedTest: item
-                              });
-                            }}
-                            style={styles.button}
-                          >
-                            <View style={styles.btnTxtContainer}>
-                              <Text style={styles.btnTxt}>START</Text>
-                            </View>
-                          </TouchableOpacity>
+                          {isAnswered ? (
+                            <TouchableOpacity
+                              style={styles.button} disabled={true}
+                            >
+                              <View style={styles.btnTxtContainer}>
+                                <Text style={styles.btnTxt}> Submitted </Text>
+                              </View>
+                            </TouchableOpacity>
+                          ) : (
+                            <TouchableOpacity
+                              onPress={() => {
+                                this.setState({
+                                  instructionModalVisible: true,
+                                  selectedTest: item
+                                });
+                              }}
+                              style={styles.button}
+                            >
+                              <View style={styles.btnTxtContainer}>
+                                <Text style={styles.btnTxt}> START </Text>
+                              </View>
+                            </TouchableOpacity>
+                          )}
                         </View>
                       </View>
                     );

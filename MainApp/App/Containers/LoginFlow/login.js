@@ -79,7 +79,7 @@ class Login extends Component {
     const { username, password } = this.state;
     if (username == "" || password == "") {
       this.setState({
-        errorMessage: "Email and password fields cannot be empty"
+        errorMessage: "User Id and password fields cannot be empty"
       });
     } else {
       this.setState({ loading: true });
@@ -121,7 +121,7 @@ class Login extends Component {
               <View style={styles.InputContainer}>
                 <TextInput
                   onChangeText={value => this.setState({ username: value })}
-                  placeholder="EMAIL"
+                  placeholder="USER ID"
                   placeholderTextColor="rgb(217,217,217)"
                   underlineColorAndroid="transparent"
                   style={styles.txtInput}
