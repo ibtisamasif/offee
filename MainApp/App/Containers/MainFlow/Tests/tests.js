@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  BackHandler
+  BackHandler,
+  ActivityIndicator
 } from "react-native";
 import { height, width, totalSize } from "react-native-dimension";
 import colors from "../../../Themes/Colors";
@@ -152,6 +153,7 @@ export class TestsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       instructionModalVisible: false,
       selectedTest: {},
       tests: [
@@ -220,8 +222,10 @@ export class TestsList extends Component {
   }
 
   async componentDidMount() {
+    this.setState({ loading: true });
     let user = await Storage.getItem("user");
     tests = await subjectList(user.cat, user.name);
+    this.setState({ loading: false });
     console.log("api data", tests);
     if (tests) {
       this.setState({
@@ -376,73 +380,80 @@ export class TestsList extends Component {
           </View>
         </Modal>
         <View style={styles.container}>
-          <View tabLabel="IBPS Clerk">
-            {
-              <View style={{ alignItems: "center" }}>
-                <ScrollView>
-                  {this.state.tests.map((item, key) => {
-                    const isAnswered = item.answered;
-                    return (
-                      <View
-                        key={key}
-                        style={{
-                          width: width(90),
-                          backgroundColor: "white",
-                          alignItems: "center",
-                          marginVertical: totalSize(1.3),
-                          marginHorizontal: totalSize(0.5),
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          borderRadius: 5,
-                          elevation: 3
-                        }}
-                      >
-                        <View
-                          style={{
-                            //width: width(50),
-                            marginLeft: totalSize(1.5)
-                          }}
-                        >
-                          <Text style={[styles.h2]}>{item.quiz_name}</Text>
-                        </View>
-                        <View
-                          style={{
-                            //width: width(30),
-                            marginVertical: totalSize(1.5),
-                            alignItems: "center"
-                          }}
-                        >
-                          {isAnswered ? (
-                            <TouchableOpacity
-                              style={styles.button} disabled={true}
-                            >
-                              <View style={styles.btnTxtContainer}>
-                                <Text style={styles.btnTxt}> SUBMITTED </Text>
-                              </View>
-                            </TouchableOpacity>
-                          ) : (
-                            <TouchableOpacity
-                              onPress={() => {
-                                this.setState({
-                                  instructionModalVisible: true,
-                                  selectedTest: item
-                                });
+          {this.state.loading === true ? (
+            <ActivityIndicator style={styles.loading}
+              size={"small"}
+              color={colors.Offeeblue}
+            />
+          ) : (
+              <View tabLabel="IBPS Clerk">
+                {
+                  <View style={{ alignItems: "center" }}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                      {this.state.tests.map((item, key) => {
+                        const isAnswered = item.answered;
+                        return (
+                          <View
+                            key={key}
+                            style={{
+                              width: width(90),
+                              backgroundColor: "white",
+                              alignItems: "center",
+                              marginVertical: totalSize(1.3),
+                              marginHorizontal: totalSize(0.5),
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              borderRadius: 5,
+                              elevation: 3
+                            }}
+                          >
+                            <View
+                              style={{
+                                //width: width(50),
+                                marginLeft: totalSize(1.5)
                               }}
-                              style={styles.button}
                             >
-                              <View style={styles.btnTxtContainer}>
-                                <Text style={styles.btnTxt}> START </Text>
-                              </View>
-                            </TouchableOpacity>
-                          )}
-                        </View>
-                      </View>
-                    );
-                  })}
-                </ScrollView>
+                              <Text style={[styles.h2]}>{item.quiz_name}</Text>
+                            </View>
+                            <View
+                              style={{
+                                //width: width(30),
+                                marginVertical: totalSize(1.5),
+                                alignItems: "center"
+                              }}
+                            >
+                              {isAnswered ? (
+                                <TouchableOpacity
+                                  style={styles.button} disabled={true}
+                                >
+                                  <View style={styles.btnTxtContainer}>
+                                    <Text style={styles.btnTxt}> SUBMITTED </Text>
+                                  </View>
+                                </TouchableOpacity>
+                              ) : (
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      this.setState({
+                                        instructionModalVisible: true,
+                                        selectedTest: item
+                                      });
+                                    }}
+                                    style={styles.button}
+                                  >
+                                    <View style={styles.btnTxtContainer}>
+                                      <Text style={styles.btnTxt}> START </Text>
+                                    </View>
+                                  </TouchableOpacity>
+                                )}
+                            </View>
+                          </View>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                }
               </View>
-            }
-          </View>
+            )}
         </View>
       </View>
     );
@@ -536,5 +547,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center"
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });

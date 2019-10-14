@@ -7,7 +7,8 @@ import {
     StyleSheet,
     SafeAreaView,
     BackHandler,
-    ToastAndroid
+    ToastAndroid,
+    ActivityIndicator
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { height, width, totalSize } from "react-native-dimension";
@@ -22,7 +23,7 @@ class MCQ extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading_click: false,
+            loading: false,
             IsModalVisibleQuestions: false,
             IsModalVisibleSubmit: false,
             timeProgress: 5,
@@ -152,19 +153,6 @@ class MCQ extends Component {
         this.getCurrentItem();
     }
 
-    async getCurrentItem() {
-        let quiz = this.props.navigation.getParam("item");
-        callback = await getQuestions(quiz.QUIZ_ID);
-        if (callback) {
-            this.setState({
-                quiz: callback,
-                questions: callback.questions
-            });
-            console.log("api whole data", callback);
-        }
-        this.addIdToQuestionsArray();
-    }
-
     componentDidMount() {
         _this = this
         this.getCurrentItem();
@@ -176,6 +164,22 @@ class MCQ extends Component {
 
     componentWillUnmount() {
         this.backHandler.remove();
+    }
+
+    async getCurrentItem() {
+        this.setState({ loading: true });
+        let quiz = this.props.navigation.getParam("item");
+        let callback = await getQuestions(quiz.QUIZ_ID);
+        this.setState({ loading: false });
+        if (callback) {
+            this.setState({
+                quiz: callback,
+                questions: callback.questions
+                // loading: false
+            });
+            console.log("api whole data", callback);
+        }
+        this.addIdToQuestionsArray();
     }
 
     addIdToQuestionsArray() {
@@ -200,19 +204,6 @@ class MCQ extends Component {
         return true;
     };
 
-    async getCurrentItem() {
-        let quiz = this.props.navigation.getParam("item");
-        callback = await getQuestions(quiz.QUIZ_ID);
-        if (callback) {
-            this.setState({
-                quiz: callback,
-                questions: callback.questions
-            })
-            console.log('api whole data', callback)
-        }
-        this.addIdToQuestionsArray()
-    }
-
     clearSelection() {
         for (
             let i = 0;
@@ -230,7 +221,7 @@ class MCQ extends Component {
     }
 
     chooseOption = async item => {
-        this.setState({ loading_click: true });
+        this.setState({ loading: true });
         for (
             let i = 0;
             i < this.state.questions[this.state.index].question_options.length;
@@ -266,7 +257,7 @@ class MCQ extends Component {
                 }
             }
         }
-        this.setState({ loading_click: false });
+        this.setState({ loading: false });
     };
 
     goToNext = () => {
@@ -338,360 +329,367 @@ class MCQ extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={styles.MainContainer}>
-                        <View style={styles.header}>
-                            <View
-                                style={{
-                                    flex: 5.5,
-                                    justifyContent: "center",
-                                    alignItems: "flex-start",
-                                    backgroundColor: colors.Offeeblue
-                                }}
-                            >
-                                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                    <CountDown
-                                        size={totalSize(2)}
-                                        until={parseInt(this.state.quiz.quiz_duration, 10)}
-                                        onFinish={() => alert("Finished")}
-                                        digitStyle={{ backgroundColor: "transparent" }}
-                                        digitTxtStyle={{ color: "white" }}
-                                        timeLabelStyle={{ color: "red", fontWeight: "bold" }}
-                                        separatorStyle={{ color: "white" }}
-                                        timeToShow={["H", "M", "S"]}
-                                        timeLabels={{ m: null, s: null }}
-                                        showSeparator
-                                    />
-                                    <Text
-                                        style={{ fontSize: totalSize(3), color: "white", left: 8 }}
-                                    >
-                                        {this.state.quiz.quiz_name}
-                                    </Text>
-                                </View>
-                            </View>
-                            <TouchableOpacity
-                                style={[
-                                    styles.headerIconContainer,
-                                    { backgroundColor: colors.Offeeblue }
-                                ]}
-                                onPress={this._toggleModalQuestions}
-                            >
-                                <Icon
-                                    name="menufold"
-                                    type="antdesign"
-                                    color="white"
-                                    size={totalSize(3)}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.container}>
-                            <View
-                                style={{
-                                    width: width(100),
-                                    backgroundColor: "white",
-                                    alignItems: "center"
-                                }}
-                            >
-                                <View
-                                    style={{
-                                        width: width(96),
-                                        marginTop: totalSize(1),
-                                        marginBottom: totalSize(0.5),
-                                        borderWidth: 1,
-                                        alignItems: "center",
-                                        borderRadius: 5
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            fontSize: totalSize(2.8),
-                                            color: "grey",
-                                            margin: totalSize(0.5)
-                                        }}
-                                    >
-                                        Q.{this.state.questions[this.state.index].id}
-                                    </Text>
-                                </View>
-
-                                <View
-                                    style={{
-                                        width: width(96),
-                                        marginBottom: totalSize(1),
-                                        borderWidth: 1,
-                                        borderRadius: 5
-                                    }}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.h3,
-                                            {
-                                                fontWeight: "normal",
-                                                fontSize: totalSize(2.8),
-                                                color: "grey",
-                                                margin: totalSize(0.3)
-                                            }
-                                        ]}
-                                    >
-                                        {this.state.questions[this.state.index].question_text}
-                                    </Text>
-                                </View>
-                            </View>
-
-                            {this.state.questions[this.state.index].question_options.map(
-                                (item, key) => {
-                                    return (
-                                        <View
-                                            style={{
-                                                width: width(100),
-                                                backgroundColor: "white",
-                                                alignItems: "center"
-                                            }}
-                                            key={key}
-                                        >
-                                            <TouchableOpacity
-                                                onPress={() => this.chooseOption(item)}
-                                                style={{
-                                                    width: width(94),
-                                                    borderWidth: 1,
-                                                    borderRadius: 5,
-                                                    marginLeft: totalSize(1),
-                                                    marginRight: totalSize(1),
-                                                    marginTop: totalSize(2),
-                                                    borderColor: item.isClicked ? "grey" : "black",
-                                                    backgroundColor: item.isClicked
-                                                        ? colors.green
-                                                        : "white"
-                                                }}
-                                            >
-                                                <Text
-                                                    style={[
-                                                        styles.h3,
-                                                        {
-                                                            fontWeight: "normal",
-                                                            fontSize: totalSize(2.2),
-                                                            color: "black",
-                                                            margin: totalSize(0.7)
-                                                        }
-                                                    ]}
-                                                >
-                                                    {item.option_text}
-                                                </Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    );
-                                }
-                            )}
-
-                            <View
-                                style={{
-                                    flex: 1,
-                                    paddingHorizontal: totalSize(1)
-                                }}
-                            >
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        justifyContent: "space-between",
-                                        marginTop: totalSize(20),
-                                        bottom: 0
-                                    }}
-                                >
-                                    <TouchableOpacity
-                                        style={styles.previousNextButton}
-                                        onPress={() => this.goToPrevious()}
-                                    >
-                                        <View
-                                            style={{ flexDirection: "row", alignItems: "center" }}
-                                        >
-                                            <Text style={[styles.h3, { color: colors.Offeeblue }]}>
-                                                Previous
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.previousNextButton}
-                                        onPress={() => this.goToNext()}
-                                    >
-                                        <View
-                                            style={{ flexDirection: "row", alignItems: "center" }}
-                                        >
-                                            <Text style={[styles.h3, { color: colors.Offeeblue }]}>
-                                                Next
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-
-                        <Modal
-                            isVisible={this.state.IsModalVisibleQuestions} // Show all quesions
-                            animationIn="slideInRight"
-                            animationOut="slideOutRight"
-                            backdropColor="black"
-                            animationInTiming={500}
-                            animationOutTiming={500}
-                            backdropOpacity={0.5}
-                            width={width(95)}
-                            height={height(100)}
-                            onBackdropPress={this._toggleModalQuestions}
-                            onBackButtonPress={this._toggleModalQuestions}
-                            style={{ alignItems: "flex-end", justifyContent: "center" }}
-                        >
-                            <View
-                                style={{
-                                    backgroundColor: "white",
-                                    height: height(100),
-                                    width: width(80)
-                                }}
-                            >
-                                <View style={{ flex: 1 }}>
+                {this.state.loading === true ? (
+                    <ActivityIndicator style={styles.loading}
+                        size={"small"}
+                        color={colors.Offeeblue}
+                    />
+                ) : (
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            <View style={styles.MainContainer}>
+                                <View style={styles.header}>
                                     <View
                                         style={{
-                                            //width: "100%",
-                                            height: totalSize(9),
-                                            paddingLeft: totalSize(1.2),
-                                            paddingTop: totalSize(0.5),
-                                            backgroundColor: colors.Offeeblue,
+                                            flex: 5.5,
+                                            justifyContent: "center",
                                             alignItems: "flex-start",
-                                            justifyContent: "center"
+                                            backgroundColor: colors.Offeeblue
                                         }}
+                                    >
+                                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                            <CountDown
+                                                size={totalSize(2)}
+                                                until={parseInt(this.state.quiz.quiz_duration, 10)}
+                                                onFinish={() => alert("Finished")}
+                                                digitStyle={{ backgroundColor: "transparent" }}
+                                                digitTxtStyle={{ color: "white" }}
+                                                timeLabelStyle={{ color: "red", fontWeight: "bold" }}
+                                                separatorStyle={{ color: "white" }}
+                                                timeToShow={["H", "M", "S"]}
+                                                timeLabels={{ m: null, s: null }}
+                                                showSeparator
+                                            />
+                                            <Text
+                                                style={{ fontSize: totalSize(3), color: "white", left: 8 }}
+                                            >
+                                                {this.state.quiz.quiz_name}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.headerIconContainer,
+                                            { backgroundColor: colors.Offeeblue }
+                                        ]}
+                                        onPress={this._toggleModalQuestions}
                                     >
                                         <Icon
-                                            name="menuunfold"
+                                            name="menufold"
                                             type="antdesign"
                                             color="white"
-                                            size={totalSize(4)}
-                                            onPress={this._toggleModalQuestions}
+                                            size={totalSize(3)}
                                         />
-                                    </View>
-
-                                    <View style={{ flex: 1, backgroundColor: "transparent" }}>
-                                        <FlatGrid
-                                            itemDimension={totalSize(5)}
-                                            items={this.state.questions}
-                                            renderItem={({ item }) => (
-                                                <TouchableOpacity
-                                                    onPress={() =>
-                                                        this.moveToSpecificQuestion(item.id - 1)
-                                                    }
-                                                    style={styles.getCircleStyle(item)}
-                                                >
-                                                    <Text
-                                                        style={{
-                                                            fontSize: totalSize(2.3),
-                                                            textAlign: "center",
-                                                            color: "black"
-                                                        }}
-                                                    >
-                                                        {item.id}
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            )}
-                                        />
-                                    </View>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.container}>
                                     <View
                                         style={{
-                                            flex: 0.2,
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            backgroundColor: "transparent"
+                                            width: width(100),
+                                            backgroundColor: "white",
+                                            alignItems: "center"
                                         }}
                                     >
-                                        <TouchableOpacity
-                                            onPress={() => this.verifysubmitTest()}
+                                        <View
                                             style={{
-                                                height: height(7.5),
-                                                width: width(75),
+                                                width: width(96),
+                                                marginTop: totalSize(1),
+                                                marginBottom: totalSize(0.5),
                                                 borderWidth: 1,
-                                                borderColor: colors.Offeeblue,
                                                 alignItems: "center",
-                                                justifyContent: "center",
-                                                borderRadius: 4
+                                                borderRadius: 5
                                             }}
                                         >
-                                            <Text style={[styles.h3]}>SUBMIT</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
-                        </Modal>
+                                            <Text
+                                                style={{
+                                                    fontSize: totalSize(2.8),
+                                                    color: "grey",
+                                                    margin: totalSize(0.5)
+                                                }}
+                                            >
+                                                Q.{this.state.questions[this.state.index].id}
+                                            </Text>
+                                        </View>
 
-                        <Modal
-                            isVisible={this.state.IsModalVisibleSubmit} // sumbit
-                            animationIn="slideInUp"
-                            animationOut="slideOutDown"
-                            backdropColor="black"
-                            animationInTiming={500}
-                            animationOutTiming={500}
-                            backdropOpacity={0.5}
-                        >
-                            <View style={styles.MainModalContainer}>
-                                <View style={{ backgroundColor: "#fff" }}>
-                                    <View style={[styles.headerSubmitDialog, { marginBottom: height(1) }]}>
-                                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                            <Text style={[styles.h2, { color: "white" }]}>Confirm Submit!!</Text>
+                                        <View
+                                            style={{
+                                                width: width(96),
+                                                marginBottom: totalSize(1),
+                                                borderWidth: 1,
+                                                borderRadius: 5
+                                            }}
+                                        >
+                                            <Text
+                                                style={[
+                                                    styles.h3,
+                                                    {
+                                                        fontWeight: "normal",
+                                                        fontSize: totalSize(2.8),
+                                                        color: "grey",
+                                                        margin: totalSize(0.3)
+                                                    }
+                                                ]}
+                                            >
+                                                {this.state.questions[this.state.index].question_text}
+                                            </Text>
                                         </View>
                                     </View>
-                                    <View style={{ width: width(90), alignItems: "center", borderBottomWidth: 0.6 }}>
-                                        <Text style={[styles.h3, { marginBottom: height(1) }]}>Are you sure you want to submit the test ?</Text>
-                                    </View>
-                                    <View style={{ width: width(90) }}>
-                                    <Text style={[styles.h4,
-                                        {
-                                            marginHorizontal: totalSize(1.2),
-                                            marginTop: totalSize(0.6)
+
+                                    {this.state.questions[this.state.index].question_options.map(
+                                        (item, key) => {
+                                            return (
+                                                <View
+                                                    style={{
+                                                        width: width(100),
+                                                        backgroundColor: "white",
+                                                        alignItems: "center"
+                                                    }}
+                                                    key={key}
+                                                >
+                                                    <TouchableOpacity
+                                                        onPress={() => this.chooseOption(item)}
+                                                        style={{
+                                                            width: width(94),
+                                                            borderWidth: 1,
+                                                            borderRadius: 5,
+                                                            marginLeft: totalSize(1),
+                                                            marginRight: totalSize(1),
+                                                            marginTop: totalSize(2),
+                                                            borderColor: item.isClicked ? "grey" : "black",
+                                                            backgroundColor: item.isClicked
+                                                                ? colors.green
+                                                                : "white"
+                                                        }}
+                                                    >
+                                                        <Text
+                                                            style={[
+                                                                styles.h3,
+                                                                {
+                                                                    fontWeight: "normal",
+                                                                    fontSize: totalSize(2.2),
+                                                                    color: "black",
+                                                                    margin: totalSize(0.7)
+                                                                }
+                                                            ]}
+                                                        >
+                                                            {item.option_text}
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            );
                                         }
-                                        ]}
-                                        >
-                                            Total No of Questions:
-                                        </Text>                                        
-                                        <Text style={[styles.h4,
-                                        {
-                                            marginHorizontal: totalSize(1.2),
-                                            marginTop: totalSize(0.6)
-                                        }
-                                        ]}
-                                        >
-                                            No of questions attempted:
-                                        </Text>
-                                        <Text style={[styles.h4,
-                                        {
-                                            marginHorizontal: totalSize(1.2),
-                                            marginTop: totalSize(0.6),
-                                            marginBottom: totalSize(2)
-                                        }
-                                        ]}
-                                        >
-                                            No of questions skipped:
-                                        </Text>
-                                    </View>
+                                    )}
 
                                     <View
-                                        style={{ flexDirection: "row", justifyContent: "space-around" }}
+                                        style={{
+                                            flex: 1,
+                                            paddingHorizontal: totalSize(1)
+                                        }}
                                     >
-                                        <TouchableOpacity
-                                            style={styles.customButton}
-                                            onPress={() => this.submitTest()}
+                                        <View
+                                            style={{
+                                                flexDirection: "row",
+                                                justifyContent: "space-between",
+                                                marginTop: totalSize(20),
+                                                bottom: 0
+                                            }}
                                         >
-                                            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                                <Text style={[styles.h3]}>Yes,Submit Test</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={styles.customButton}
-                                            onPress={this._toggleModalSubmit}
-                                        >
-                                            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                                <Text style={[styles.h3]}>No,Continue Test</Text>
-                                            </View>
-                                        </TouchableOpacity>
+                                            <TouchableOpacity
+                                                style={styles.previousNextButton}
+                                                onPress={() => this.goToPrevious()}
+                                            >
+                                                <View
+                                                    style={{ flexDirection: "row", alignItems: "center" }}
+                                                >
+                                                    <Text style={[styles.h3, { color: colors.Offeeblue }]}>
+                                                        Previous
+                                            </Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                style={styles.previousNextButton}
+                                                onPress={() => this.goToNext()}
+                                            >
+                                                <View
+                                                    style={{ flexDirection: "row", alignItems: "center" }}
+                                                >
+                                                    <Text style={[styles.h3, { color: colors.Offeeblue }]}>
+                                                        Next
+                                            </Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 </View>
+
+                                <Modal
+                                    isVisible={this.state.IsModalVisibleQuestions} // Show all quesions
+                                    animationIn="slideInRight"
+                                    animationOut="slideOutRight"
+                                    backdropColor="black"
+                                    animationInTiming={500}
+                                    animationOutTiming={500}
+                                    backdropOpacity={0.5}
+                                    width={width(95)}
+                                    height={height(100)}
+                                    onBackdropPress={this._toggleModalQuestions}
+                                    onBackButtonPress={this._toggleModalQuestions}
+                                    style={{ alignItems: "flex-end", justifyContent: "center" }}
+                                >
+                                    <View
+                                        style={{
+                                            backgroundColor: "white",
+                                            height: height(100),
+                                            width: width(80)
+                                        }}
+                                    >
+                                        <View style={{ flex: 1 }}>
+                                            <View
+                                                style={{
+                                                    //width: "100%",
+                                                    height: totalSize(9),
+                                                    paddingLeft: totalSize(1.2),
+                                                    paddingTop: totalSize(0.5),
+                                                    backgroundColor: colors.Offeeblue,
+                                                    alignItems: "flex-start",
+                                                    justifyContent: "center"
+                                                }}
+                                            >
+                                                <Icon
+                                                    name="menuunfold"
+                                                    type="antdesign"
+                                                    color="white"
+                                                    size={totalSize(4)}
+                                                    onPress={this._toggleModalQuestions}
+                                                />
+                                            </View>
+
+                                            <View style={{ flex: 1, backgroundColor: "transparent" }}>
+                                                <FlatGrid
+                                                    itemDimension={totalSize(5)}
+                                                    items={this.state.questions}
+                                                    renderItem={({ item }) => (
+                                                        <TouchableOpacity
+                                                            onPress={() =>
+                                                                this.moveToSpecificQuestion(item.id - 1)
+                                                            }
+                                                            style={styles.getCircleStyle(item)}
+                                                        >
+                                                            <Text
+                                                                style={{
+                                                                    fontSize: totalSize(2.3),
+                                                                    textAlign: "center",
+                                                                    color: "black"
+                                                                }}
+                                                            >
+                                                                {item.id}
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                    )}
+                                                />
+                                            </View>
+                                            <View
+                                                style={{
+                                                    flex: 0.2,
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    backgroundColor: "transparent"
+                                                }}
+                                            >
+                                                <TouchableOpacity
+                                                    onPress={() => this.verifysubmitTest()}
+                                                    style={{
+                                                        height: height(7.5),
+                                                        width: width(75),
+                                                        borderWidth: 1,
+                                                        borderColor: colors.Offeeblue,
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        borderRadius: 4
+                                                    }}
+                                                >
+                                                    <Text style={[styles.h3]}>SUBMIT</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </Modal>
+
+                                <Modal
+                                    isVisible={this.state.IsModalVisibleSubmit} // sumbit
+                                    animationIn="slideInUp"
+                                    animationOut="slideOutDown"
+                                    backdropColor="black"
+                                    animationInTiming={500}
+                                    animationOutTiming={500}
+                                    backdropOpacity={0.5}
+                                >
+                                    <View style={styles.MainModalContainer}>
+                                        <View style={{ backgroundColor: "#fff" }}>
+                                            <View style={[styles.headerSubmitDialog, { marginBottom: height(1) }]}>
+                                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                    <Text style={[styles.h2, { color: "white" }]}>Confirm Submit!!</Text>
+                                                </View>
+                                            </View>
+                                            <View style={{ width: width(90), alignItems: "center", borderBottomWidth: 0.6 }}>
+                                                <Text style={[styles.h3, { marginBottom: height(1) }]}>Are you sure you want to submit the test ?</Text>
+                                            </View>
+                                            <View style={{ width: width(90) }}>
+                                                <Text style={[styles.h4,
+                                                {
+                                                    marginHorizontal: totalSize(1.2),
+                                                    marginTop: totalSize(0.6)
+                                                }
+                                                ]}
+                                                >
+                                                    Total No of Questions:
+                                        </Text>
+                                                <Text style={[styles.h4,
+                                                {
+                                                    marginHorizontal: totalSize(1.2),
+                                                    marginTop: totalSize(0.6)
+                                                }
+                                                ]}
+                                                >
+                                                    No of questions attempted:
+                                        </Text>
+                                                <Text style={[styles.h4,
+                                                {
+                                                    marginHorizontal: totalSize(1.2),
+                                                    marginTop: totalSize(0.6),
+                                                    marginBottom: totalSize(2)
+                                                }
+                                                ]}
+                                                >
+                                                    No of questions skipped:
+                                        </Text>
+                                            </View>
+
+                                            <View
+                                                style={{ flexDirection: "row", justifyContent: "space-around" }}
+                                            >
+                                                <TouchableOpacity
+                                                    style={styles.customButton}
+                                                    onPress={() => this.submitTest()}
+                                                >
+                                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                        <Text style={[styles.h3]}>Yes,Submit Test</Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    style={styles.customButton}
+                                                    onPress={this._toggleModalSubmit}
+                                                >
+                                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                        <Text style={[styles.h3]}>No,Continue Test</Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </Modal>
                             </View>
-                        </Modal>
-                    </View>
-                </ScrollView>
+                        </ScrollView>
+                    )}
             </SafeAreaView>
         );
     }
@@ -790,5 +788,14 @@ const styles = StyleSheet.create({
             backgroundColor:
                 item.status === 1 ? colors.green : colors.transparent
         };
+    },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
