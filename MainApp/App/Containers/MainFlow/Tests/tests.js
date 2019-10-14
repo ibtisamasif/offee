@@ -269,14 +269,14 @@ export class TestsList extends Component {
                 style={[styles.headerBeginTest, { marginBottom: height(1) }]}
               >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={[styles.h2, { color: "white" }]}>
+                  <Text style={{
+                    fontSize: totalSize(2),
+                    color: "white"
+                  }}>
                     Begin Test !!
                   </Text>
                 </View>
               </View>
-              {/* <View style={{ marginVertical: height(2) }}>
-              <Text style={styles.h2}> {this.state.data.quiz_name} </Text>
-            </View> */}
               <View
                 style={{
                   width: width(90),
@@ -284,7 +284,7 @@ export class TestsList extends Component {
                   borderBottomWidth: 0.6
                 }}
               >
-                <Text style={[styles.h3, { marginBottom: height(1) }]}>
+                <Text style={{ fontSize: totalSize(2), marginBottom: height(1) }}>
                   Are you sure you want to begin the test ?
                 </Text>
               </View>
@@ -361,7 +361,7 @@ export class TestsList extends Component {
                   onPress={() => this.quizActivity()}
                 >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={[styles.h3]}>Begin Test</Text>
+                    <Text style={{ color: "black" }}>Begin Test</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -374,7 +374,7 @@ export class TestsList extends Component {
                   }
                 >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={[styles.h3]}>Cancel</Text>
+                    <Text style={{ color: "black" }}>Cancel</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -389,75 +389,75 @@ export class TestsList extends Component {
               color={colors.Offeeblue}
             />
           ) : (
-            <View tabLabel="IBPS Clerk">
-              {
-                <View style={{ alignItems: "center" }}>
-                  <ScrollView showsVerticalScrollIndicator={false}>
-                    {this.state.tests.map((item, key) => {
-                      const isAnswered = item.answered;
-                      return (
-                        <View
-                          key={key}
-                          style={{
-                            width: width(97),
-                            backgroundColor: "white",
-                            alignItems: "center",
-                            marginVertical: totalSize(0.8),
-                            marginHorizontal: totalSize(0.5),
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            borderRadius: 9,
-                            elevation: 2
-                          }}
-                        >
+              <View tabLabel="IBPS Clerk">
+                {
+                  <View style={{ alignItems: "center" }}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                      {this.state.tests.map((item, key) => {
+                        const isAnswered = item.answered;
+                        return (
                           <View
+                            key={key}
                             style={{
-                              //width: width(50),
-                              marginLeft: totalSize(1.5)
+                              width: width(97),
+                              backgroundColor: "white",
+                              alignItems: "center",
+                              marginVertical: totalSize(0.8),
+                              marginHorizontal: totalSize(0.5),
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              borderRadius: 9,
+                              elevation: 2
                             }}
                           >
-                            <Text style={[styles.subjectNameText]}>{item.quiz_name}</Text>
+                            <View
+                              style={{
+                                //width: width(50),
+                                marginLeft: totalSize(1.5)
+                              }}
+                            >
+                              <Text style={[styles.subjectNameText]}>{item.quiz_name}</Text>
+                            </View>
+                            <View
+                              style={{
+                                //width: width(30),
+                                marginVertical: totalSize(1.5),
+                                alignItems: "center"
+                              }}
+                            >
+                              {isAnswered ? (
+                                <TouchableOpacity
+                                  style={styles.button}
+                                  disabled={true}
+                                >
+                                  <View style={styles.btnTxtContainer}>
+                                    <Text style={styles.btnTxt}> SUBMITTED </Text>
+                                  </View>
+                                </TouchableOpacity>
+                              ) : (
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      this.setState({
+                                        instructionModalVisible: true,
+                                        selectedTest: item
+                                      });
+                                    }}
+                                    style={styles.button}
+                                  >
+                                    <View style={styles.btnTxtContainer}>
+                                      <Text style={styles.btnTxt}> START </Text>
+                                    </View>
+                                  </TouchableOpacity>
+                                )}
+                            </View>
                           </View>
-                          <View
-                            style={{
-                              //width: width(30),
-                              marginVertical: totalSize(1.5),
-                              alignItems: "center"
-                            }}
-                          >
-                            {isAnswered ? (
-                              <TouchableOpacity
-                                style={styles.button}
-                                disabled={true}
-                              >
-                                <View style={styles.btnTxtContainer}>
-                                  <Text style={styles.btnTxt}> SUBMITTED </Text>
-                                </View>
-                              </TouchableOpacity>
-                            ) : (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  this.setState({
-                                    instructionModalVisible: true,
-                                    selectedTest: item
-                                  });
-                                }}
-                                style={styles.button}
-                              >
-                                <View style={styles.btnTxtContainer}>
-                                  <Text style={styles.btnTxt}> START </Text>
-                                </View>
-                              </TouchableOpacity>
-                            )}
-                          </View>
-                        </View>
-                      );
-                    })}
-                  </ScrollView>
-                </View>
-              }
-            </View>
-          )}
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                }
+              </View>
+            )}
         </View>
       </View>
     );
@@ -475,15 +475,10 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.4)"
   },
   header: {
-    flex: 0.1,
+    flex: 0.08,
     flexDirection: "row",
     backgroundColor: colors.Offeeblue,
     alignItems: "center"
-  },
-  headerIconContainer: {
-    flex: 1.5,
-    alignItems: "center",
-    justifyContent: "center"
   },
   container: {
     flex: 1,
