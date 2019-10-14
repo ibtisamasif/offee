@@ -8,8 +8,7 @@ import {
     SafeAreaView,
     BackHandler,
     ToastAndroid,
-    ActivityIndicator,
-    Dimensions
+    ActivityIndicator
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { height, width, totalSize } from "react-native-dimension";
@@ -18,7 +17,6 @@ import CountDown from "react-native-countdown-component";
 import Modal from "react-native-modal";
 import { FlatGrid } from "react-native-super-grid";
 import { getQuestions, submitAnswers } from "../../../backend/ApiAxios";
-let Height = Dimensions.get("window").height;
 _this = null;
 class MCQ extends Component {
     constructor(props) {
@@ -208,7 +206,6 @@ class MCQ extends Component {
             "Please finish your exam before trying to leave the current page",
             ToastAndroid.SHORT
         );
-        // alert("Please finish your exam before trying to leave the current page")
         return true;
     };
 
@@ -354,7 +351,6 @@ class MCQ extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                {/* <View style={{ height: height }}></View> */}
                 {this.state.loading === true ? (
                     <ActivityIndicator
                         style={styles.loading}
@@ -388,7 +384,7 @@ class MCQ extends Component {
                                             />
                                             <Text
                                                 style={{
-                                                    fontSize: totalSize(3),
+                                                    fontSize: totalSize(2.6),
                                                     color: "white",
                                                     left: 8
                                                 }}
@@ -427,12 +423,13 @@ class MCQ extends Component {
                                                 marginBottom: totalSize(0.5),
                                                 borderWidth: 1,
                                                 alignItems: "center",
-                                                borderRadius: 5
+                                                borderRadius: 5,
+                                                borderColor: "gray"
                                             }}
                                         >
                                             <Text
                                                 style={{
-                                                    fontSize: totalSize(2.8),
+                                                    fontSize: totalSize(2.3),
                                                     color: "grey",
                                                     margin: totalSize(0.5)
                                                 }}
@@ -444,17 +441,16 @@ class MCQ extends Component {
                                         <View
                                             style={{
                                                 width: width(96),
-                                                marginBottom: totalSize(1),
                                                 borderWidth: 1,
-                                                borderRadius: 5
+                                                borderRadius: 5,
+                                                borderColor: "gray"
                                             }}
                                         >
                                             <Text
                                                 style={[
-                                                    styles.h3,
                                                     {
                                                         fontWeight: "normal",
-                                                        fontSize: totalSize(2.8),
+                                                        fontSize: totalSize(2.1),
                                                         color: "grey",
                                                         margin: totalSize(0.3)
                                                     }
@@ -485,7 +481,7 @@ class MCQ extends Component {
                                                             marginLeft: totalSize(1),
                                                             marginRight: totalSize(1),
                                                             marginTop: totalSize(2),
-                                                            borderColor: item.isClicked ? "grey" : "black",
+                                                            borderColor: "grey",
                                                             backgroundColor: item.isClicked
                                                                 ? colors.green
                                                                 : "white"
@@ -493,10 +489,9 @@ class MCQ extends Component {
                                                     >
                                                         <Text
                                                             style={[
-                                                                styles.h3,
                                                                 {
                                                                     fontWeight: "normal",
-                                                                    fontSize: totalSize(2.2),
+                                                                    fontSize: totalSize(1.6),
                                                                     color: "black",
                                                                     margin: totalSize(0.7)
                                                                 }
@@ -509,19 +504,6 @@ class MCQ extends Component {
                                             );
                                         }
                                     )}
-
-                                    <TouchableOpacity
-                                        style={styles.previousNextButton}
-                                        onPress={() => this.verifysubmitTest()}
-                                    >
-                                        <View
-                                            style={{ flexDirection: "row", alignItems: "center" }}
-                                        >
-                                            <Text style={[styles.h3, { color: colors.Offeeblue }]}>
-                                                submit
-                        </Text>
-                                        </View>
-                                    </TouchableOpacity>
 
                                     <View
                                         style={{
@@ -588,8 +570,7 @@ class MCQ extends Component {
                                         <View style={{ flex: 1 }}>
                                             <View
                                                 style={{
-                                                    //width: "100%",
-                                                    height: totalSize(9),
+                                                    height: totalSize(8),
                                                     paddingLeft: totalSize(1.2),
                                                     paddingTop: totalSize(0.5),
                                                     backgroundColor: colors.Offeeblue,
@@ -619,7 +600,7 @@ class MCQ extends Component {
                                                         >
                                                             <Text
                                                                 style={{
-                                                                    fontSize: totalSize(2.3),
+                                                                    fontSize: totalSize(2),
                                                                     textAlign: "center",
                                                                     color: "black"
                                                                 }}
@@ -779,7 +760,6 @@ const styles = StyleSheet.create({
         // backgroundColor: "rgba(0,0,0,0.4)"
     },
     header: {
-        //flex: 0.1,
         flex: 1,
         flexDirection: "row",
         backgroundColor: "black"
@@ -790,10 +770,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     container: {
-        //flex: 1,
-        minHeight: Height * 0.9,
-        backgroundColor: colors.silver
-        //backgroundColor: "green"
+        minHeight: totalSize(77)
     },
     h1: {
         fontSize: totalSize(3),
@@ -806,7 +783,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     h3: {
-        fontSize: totalSize(2),
+        fontSize: totalSize(1.6),
         color: "black"
     },
     h4: {
@@ -837,8 +814,9 @@ const styles = StyleSheet.create({
         height: height(6),
         width: width(47.5),
         marginBottom: totalSize(0.5),
+        borderColor: "gray",
         borderWidth: 1,
-        borderRadius: 2,
+        borderRadius: 3,
         alignItems: "center",
         justifyContent: "center"
     },
@@ -854,8 +832,8 @@ const styles = StyleSheet.create({
     },
     getCircleStyle(item) {
         return {
-            height: totalSize(5),
-            width: totalSize(5),
+            height: totalSize(4),
+            width: totalSize(4),
             alignItems: "center",
             justifyContent: "center",
             borderWidth: 1,

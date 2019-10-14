@@ -32,7 +32,7 @@ const colors = {
   Darkgraycolor: 'rgb(66,67,69)',
   LightRed:'rgb(255,240,240)',
   parrotGreen:'rgb(180,210,53)',
-  green:'rgb(114,190,120)'
+  green:'rgb(114,184,120)'
 }
 
 export default colors
