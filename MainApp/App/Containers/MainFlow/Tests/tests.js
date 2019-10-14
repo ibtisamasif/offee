@@ -60,7 +60,7 @@ export default class Tests extends Component {
               fontSize: totalSize(2),
               color: "white",
               fontWeight: "bold",
-              marginLeft: totalSize(2),
+              marginLeft: totalSize(2)
             }}
           >
             Offee
@@ -265,7 +265,9 @@ export class TestsList extends Component {
         >
           <View style={styles.MainModalContainer}>
             <View style={{ backgroundColor: "#fff" }}>
-              <View style={[styles.headerBeginTest, { marginBottom: height(1) }]}>
+              <View
+                style={[styles.headerBeginTest, { marginBottom: height(1) }]}
+              >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text style={[styles.h2, { color: "white" }]}>
                     Begin Test !!
@@ -295,7 +297,7 @@ export class TestsList extends Component {
                   style={[
                     styles.h4,
                     {
-                      marginHorizontal: totalSize(1.2),
+                      marginHorizontal: totalSize(1.6),
                       marginTop: totalSize(1)
                     }
                   ]}
@@ -306,7 +308,7 @@ export class TestsList extends Component {
                   style={[
                     styles.h4,
                     {
-                      marginHorizontal: totalSize(1.2),
+                      marginHorizontal: totalSize(1.6),
                       fontWeight: "bold"
                     }
                   ]}
@@ -322,7 +324,7 @@ export class TestsList extends Component {
                     style={[
                       styles.h4,
                       {
-                        marginHorizontal: totalSize(1.2),
+                        marginHorizontal: totalSize(1.6),
                         fontWeight: "bold"
                       }
                     ]}
@@ -340,7 +342,7 @@ export class TestsList extends Component {
                     style={[
                       styles.h4,
                       {
-                        marginHorizontal: totalSize(1.2),
+                        marginHorizontal: totalSize(1.6),
                         marginBottom: totalSize(1),
                         fontWeight: "bold"
                       }
@@ -381,79 +383,81 @@ export class TestsList extends Component {
         </Modal>
         <View style={styles.container}>
           {this.state.loading === true ? (
-            <ActivityIndicator style={styles.loading}
+            <ActivityIndicator
+              style={styles.loading}
               size={"small"}
               color={colors.Offeeblue}
             />
           ) : (
-              <View tabLabel="IBPS Clerk">
-                {
-                  <View style={{ alignItems: "center" }}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                      {this.state.tests.map((item, key) => {
-                        const isAnswered = item.answered;
-                        return (
+            <View tabLabel="IBPS Clerk">
+              {
+                <View style={{ alignItems: "center" }}>
+                  <ScrollView showsVerticalScrollIndicator={false}>
+                    {this.state.tests.map((item, key) => {
+                      const isAnswered = item.answered;
+                      return (
+                        <View
+                          key={key}
+                          style={{
+                            width: width(90),
+                            backgroundColor: "white",
+                            alignItems: "center",
+                            marginVertical: totalSize(1.3),
+                            marginHorizontal: totalSize(0.5),
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            borderRadius: 5,
+                            elevation: 3
+                          }}
+                        >
                           <View
-                            key={key}
                             style={{
-                              width: width(90),
-                              backgroundColor: "white",
-                              alignItems: "center",
-                              marginVertical: totalSize(1.3),
-                              marginHorizontal: totalSize(0.5),
-                              flexDirection: "row",
-                              justifyContent: "space-between",
-                              borderRadius: 5,
-                              elevation: 3
+                              //width: width(50),
+                              marginLeft: totalSize(1.5)
                             }}
                           >
-                            <View
-                              style={{
-                                //width: width(50),
-                                marginLeft: totalSize(1.5)
-                              }}
-                            >
-                              <Text style={[styles.h2]}>{item.quiz_name}</Text>
-                            </View>
-                            <View
-                              style={{
-                                //width: width(30),
-                                marginVertical: totalSize(1.5),
-                                alignItems: "center"
-                              }}
-                            >
-                              {isAnswered ? (
-                                <TouchableOpacity
-                                  style={styles.button} disabled={true}
-                                >
-                                  <View style={styles.btnTxtContainer}>
-                                    <Text style={styles.btnTxt}> SUBMITTED </Text>
-                                  </View>
-                                </TouchableOpacity>
-                              ) : (
-                                  <TouchableOpacity
-                                    onPress={() => {
-                                      this.setState({
-                                        instructionModalVisible: true,
-                                        selectedTest: item
-                                      });
-                                    }}
-                                    style={styles.button}
-                                  >
-                                    <View style={styles.btnTxtContainer}>
-                                      <Text style={styles.btnTxt}> START </Text>
-                                    </View>
-                                  </TouchableOpacity>
-                                )}
-                            </View>
+                            <Text style={[styles.h2]}>{item.quiz_name}</Text>
                           </View>
-                        );
-                      })}
-                    </ScrollView>
-                  </View>
-                }
-              </View>
-            )}
+                          <View
+                            style={{
+                              //width: width(30),
+                              marginVertical: totalSize(1.5),
+                              alignItems: "center"
+                            }}
+                          >
+                            {isAnswered ? (
+                              <TouchableOpacity
+                                style={styles.button}
+                                disabled={true}
+                              >
+                                <View style={styles.btnTxtContainer}>
+                                  <Text style={styles.btnTxt}> SUBMITTED </Text>
+                                </View>
+                              </TouchableOpacity>
+                            ) : (
+                              <TouchableOpacity
+                                onPress={() => {
+                                  this.setState({
+                                    instructionModalVisible: true,
+                                    selectedTest: item
+                                  });
+                                }}
+                                style={styles.button}
+                              >
+                                <View style={styles.btnTxtContainer}>
+                                  <Text style={styles.btnTxt}> START </Text>
+                                </View>
+                              </TouchableOpacity>
+                            )}
+                          </View>
+                        </View>
+                      );
+                    })}
+                  </ScrollView>
+                </View>
+              }
+            </View>
+          )}
         </View>
       </View>
     );
@@ -474,7 +478,7 @@ const styles = StyleSheet.create({
     flex: 0.1,
     flexDirection: "row",
     backgroundColor: colors.Offeeblue,
-    alignItems: 'center'
+    alignItems: "center"
   },
   headerIconContainer: {
     flex: 1.5,
@@ -540,7 +544,7 @@ const styles = StyleSheet.create({
   },
   customButton: {
     height: height(6),
-    width: width(44),
+    width: width(43),
     marginBottom: totalSize(0.5),
     borderColor: colors.Offeeblue,
     borderWidth: 1,
@@ -549,12 +553,12 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   loading: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center"
   }
 });

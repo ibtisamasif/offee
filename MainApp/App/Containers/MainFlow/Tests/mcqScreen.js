@@ -8,7 +8,8 @@ import {
     SafeAreaView,
     BackHandler,
     ToastAndroid,
-    ActivityIndicator
+    ActivityIndicator,
+    Dimensions
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { height, width, totalSize } from "react-native-dimension";
@@ -17,7 +18,7 @@ import CountDown from "react-native-countdown-component";
 import Modal from "react-native-modal";
 import { FlatGrid } from "react-native-super-grid";
 import { getQuestions, submitAnswers } from "../../../backend/ApiAxios";
-
+let Height = Dimensions.get("window").height;
 _this = null;
 class MCQ extends Component {
     constructor(props) {
@@ -154,7 +155,7 @@ class MCQ extends Component {
     }
 
     componentDidMount() {
-        _this = this
+        _this = this;
         this.getCurrentItem();
         this.backHandler = BackHandler.addEventListener(
             "hardwareBackPress",
@@ -199,7 +200,10 @@ class MCQ extends Component {
     }
 
     handleBackPress = () => {
-        ToastAndroid.show('Please finish your exam before trying to leave the current page', ToastAndroid.SHORT);
+        ToastAndroid.show(
+            "Please finish your exam before trying to leave the current page",
+            ToastAndroid.SHORT
+        );
         // alert("Please finish your exam before trying to leave the current page")
         return true;
     };
@@ -254,10 +258,10 @@ class MCQ extends Component {
                     ].question_answer = selected_option;
                     this.state.questions[this.state.index].status = 1;
                 }
+                this.setState({});
             }
         }
-        this.setState({ });
-    };
+    }
 
     goToNext = () => {
         //mark as seen before moving if no previous status was set
@@ -308,50 +312,52 @@ class MCQ extends Component {
     };
 
     async submitTest() {
-        var arr = new Array(this.state.questions.length);
-        for (i = 0; i < this.state.questions.length; i++) {
-            var obj = {};
-            obj.question_id = this.state.question[i].question_id
-            if(this.state.questions[i].question_answer === null){
-                obj.answer_id = "";
-            }else {
-                obj.answer_id = this.state.questions[i].question_answer
-            }
-            arr[i] = obj;
-        }
-
-        console.log("answers array: ", arr)
-
-        // this._toggleModalSubmit();
-        // this._toggleModalQuestions();
-        // // this.setState({ loading: true });
-        // let quizActivity = this.props.navigation.getParam("quizActivity");
-        // let callback = await submitAnswers(
-        //     this.state.quiz.id,
-        //     quizActivity.user_activity,
-        //     this.state.questions
-        // );
-        // // this.setState({ loading: false });
-        // console.log("callback", callback);
-        // if (callback) {
-        //     if (callback.status = "0") {
-        //         ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
-        //         this.props.navigation.replace("drawer");
+        // var arr = new Array(this.state.questions.length);
+        // for (i = 0; i < this.state.questions.length; i++) {
+        //     var obj = {};
+        //     obj.question_id = this.state.question[i].question_id
+        //     if (this.state.questions[i].question_answer === null) {
+        //         obj.answer_id = "";
+        //     } else {
+        //         obj.answer_id = this.state.questions[i].question_answer
         //     }
+        //     arr[i] = obj;
+        // }
+
+        // console.log("answers array: ", arr)
+
+        this._toggleModalSubmit();
+        this._toggleModalQuestions();
+        // this.setState({ loading: true });
+        let quizActivity = this.props.navigation.getParam("quizActivity");
+        let callback = await submitAnswers(
+            this.state.quiz.id,
+            quizActivity.user_activity,
+            this.state.questions
+        );
+        // this.setState({ loading: false });
+        console.log("callback", callback);
+        // if (callback) {
+            // if (callback.status = "0") {
+                ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
+                this.props.navigation.replace("drawer");
+            // }
         // }
     };
 
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
+                {/* <View style={{ height: height }}></View> */}
                 {this.state.loading === true ? (
-                    <ActivityIndicator style={styles.loading}
+                    <ActivityIndicator
+                        style={styles.loading}
                         size={"small"}
                         color={colors.Offeeblue}
                     />
                 ) : (
-                        <ScrollView showsVerticalScrollIndicator={false}>
-                            <View style={styles.MainContainer}>
+                        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+                            <View style={{ flex: 1 }}>
                                 <View style={styles.header}>
                                     <View
                                         style={{
@@ -375,7 +381,11 @@ class MCQ extends Component {
                                                 showSeparator
                                             />
                                             <Text
-                                                style={{ fontSize: totalSize(3), color: "white", left: 8 }}
+                                                style={{
+                                                    fontSize: totalSize(3),
+                                                    color: "white",
+                                                    left: 8
+                                                }}
                                             >
                                                 {this.state.quiz.quiz_name}
                                             </Text>
@@ -497,15 +507,17 @@ class MCQ extends Component {
                                     <View
                                         style={{
                                             flex: 1,
-                                            paddingHorizontal: totalSize(1)
+                                            paddingHorizontal: totalSize(1),
+                                            //alignItems: "flex-end"
+                                            justifyContent: "flex-end"
                                         }}
                                     >
                                         <View
                                             style={{
                                                 flexDirection: "row",
-                                                justifyContent: "space-between",
-                                                marginTop: totalSize(20),
-                                                bottom: 0
+                                                //justifyContent: "flex-end"
+                                                justifyContent: "space-between"
+                                                //marginTop: totalSize(20)
                                             }}
                                         >
                                             <TouchableOpacity
@@ -517,7 +529,7 @@ class MCQ extends Component {
                                                 >
                                                     <Text style={[styles.h3, { color: colors.Offeeblue }]}>
                                                         Previous
-                                            </Text>
+                        </Text>
                                                 </View>
                                             </TouchableOpacity>
                                             <TouchableOpacity
@@ -529,7 +541,7 @@ class MCQ extends Component {
                                                 >
                                                     <Text style={[styles.h3, { color: colors.Offeeblue }]}>
                                                         Next
-                                            </Text>
+                        </Text>
                                                 </View>
                                             </TouchableOpacity>
                                         </View>
@@ -640,53 +652,81 @@ class MCQ extends Component {
                                 >
                                     <View style={styles.MainModalContainer}>
                                         <View style={{ backgroundColor: "#fff" }}>
-                                            <View style={[styles.headerSubmitDialog, { marginBottom: height(1) }]}>
-                                                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                                    <Text style={[styles.h2, { color: "white" }]}>Confirm Submit!!</Text>
+                                            <View
+                                                style={[
+                                                    styles.headerSubmitDialog,
+                                                    { marginBottom: height(1) }
+                                                ]}
+                                            >
+                                                <View
+                                                    style={{ flexDirection: "row", alignItems: "center" }}
+                                                >
+                                                    <Text style={[styles.h2, { color: "white" }]}>
+                                                        Confirm Submit!!
+                        </Text>
                                                 </View>
                                             </View>
-                                            <View style={{ width: width(90), alignItems: "center", borderBottomWidth: 0.6 }}>
-                                                <Text style={[styles.h3, { marginBottom: height(1) }]}>Are you sure you want to submit the test ?</Text>
+                                            <View
+                                                style={{
+                                                    width: width(90),
+                                                    alignItems: "center",
+                                                    borderBottomWidth: 0.6
+                                                }}
+                                            >
+                                                <Text style={[styles.h3, { marginBottom: height(1) }]}>
+                                                    Are you sure you want to submit the test ?
+                      </Text>
                                             </View>
                                             <View style={{ width: width(90) }}>
-                                                <Text style={[styles.h4,
-                                                {
-                                                    marginHorizontal: totalSize(1.2),
-                                                    marginTop: totalSize(0.6)
-                                                }
-                                                ]}
+                                                <Text
+                                                    style={[
+                                                        styles.h4,
+                                                        {
+                                                            marginHorizontal: totalSize(1.6),
+                                                            marginTop: totalSize(0.6)
+                                                        }
+                                                    ]}
                                                 >
                                                     Total No of Questions:
-                                        </Text>
-                                                <Text style={[styles.h4,
-                                                {
-                                                    marginHorizontal: totalSize(1.2),
-                                                    marginTop: totalSize(0.6)
-                                                }
-                                                ]}
+                      </Text>
+                                                <Text
+                                                    style={[
+                                                        styles.h4,
+                                                        {
+                                                            marginHorizontal: totalSize(1.6),
+                                                            marginTop: totalSize(0.6)
+                                                        }
+                                                    ]}
                                                 >
                                                     No of questions attempted:
-                                        </Text>
-                                                <Text style={[styles.h4,
-                                                {
-                                                    marginHorizontal: totalSize(1.2),
-                                                    marginTop: totalSize(0.6),
-                                                    marginBottom: totalSize(2)
-                                                }
-                                                ]}
+                      </Text>
+                                                <Text
+                                                    style={[
+                                                        styles.h4,
+                                                        {
+                                                            marginHorizontal: totalSize(1.6),
+                                                            marginTop: totalSize(0.6),
+                                                            marginBottom: totalSize(2)
+                                                        }
+                                                    ]}
                                                 >
                                                     No of questions skipped:
-                                        </Text>
+                      </Text>
                                             </View>
 
                                             <View
-                                                style={{ flexDirection: "row", justifyContent: "space-around" }}
+                                                style={{
+                                                    flexDirection: "row",
+                                                    justifyContent: "space-around"
+                                                }}
                                             >
                                                 <TouchableOpacity
                                                     style={styles.customButton}
                                                     onPress={() => this.submitTest()}
                                                 >
-                                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                    <View
+                                                        style={{ flexDirection: "row", alignItems: "center" }}
+                                                    >
                                                         <Text style={[styles.h3]}>Yes,Submit Test</Text>
                                                     </View>
                                                 </TouchableOpacity>
@@ -694,7 +734,9 @@ class MCQ extends Component {
                                                     style={styles.customButton}
                                                     onPress={this._toggleModalSubmit}
                                                 >
-                                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                    <View
+                                                        style={{ flexDirection: "row", alignItems: "center" }}
+                                                    >
                                                         <Text style={[styles.h3]}>No,Continue Test</Text>
                                                     </View>
                                                 </TouchableOpacity>
@@ -721,7 +763,8 @@ const styles = StyleSheet.create({
         // backgroundColor: "rgba(0,0,0,0.4)"
     },
     header: {
-        flex: 0.1,
+        //flex: 0.1,
+        flex: 1,
         flexDirection: "row",
         backgroundColor: "black"
     },
@@ -731,8 +774,10 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     container: {
-        flex: 1,
+        //flex: 1,
+        minHeight: Height * 0.9,
         backgroundColor: colors.silver
+        //backgroundColor: "green"
     },
     h1: {
         fontSize: totalSize(3),
@@ -775,7 +820,7 @@ const styles = StyleSheet.create({
     previousNextButton: {
         height: height(6),
         width: width(47.5),
-        marginBottom: totalSize(0.5),
+        //marginBottom: totalSize(0.5),
         borderWidth: 1,
         borderRadius: 2,
         alignItems: "center",
@@ -783,7 +828,7 @@ const styles = StyleSheet.create({
     },
     customButton: {
         height: height(6),
-        width: width(44),
+        width: width(43),
         marginBottom: totalSize(0.5),
         borderColor: colors.Offeeblue,
         borderWidth: 1,
@@ -800,17 +845,16 @@ const styles = StyleSheet.create({
             borderWidth: 1,
             borderRadius: 100,
             borderColor: "gray",
-            backgroundColor:
-                item.status === 1 ? colors.green : colors.transparent
+            backgroundColor: item.status === 1 ? colors.green : colors.transparent
         };
     },
     loading: {
-        position: 'absolute',
+        position: "absolute",
         left: 0,
         right: 0,
         top: 0,
         bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: "center",
+        justifyContent: "center"
     }
 });
