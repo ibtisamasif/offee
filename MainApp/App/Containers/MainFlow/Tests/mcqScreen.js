@@ -221,7 +221,6 @@ class MCQ extends Component {
     }
 
     chooseOption = async item => {
-        this.setState({ loading: true });
         for (
             let i = 0;
             i < this.state.questions[this.state.index].question_options.length;
@@ -257,7 +256,6 @@ class MCQ extends Component {
                 }
             }
         }
-        this.setState({ loading: false });
     };
 
     goToNext = () => {
@@ -308,22 +306,24 @@ class MCQ extends Component {
         this._toggleModalSubmit();
     };
 
-    submitTest = () => {
+    async submitTest() {
         this._toggleModalSubmit();
         this._toggleModalQuestions();
+        // this.setState({ loading: true });
         let quizActivity = this.props.navigation.getParam("quizActivity");
-        let callback = submitAnswers(
+        let callback = await submitAnswers(
             this.state.quiz.id,
             quizActivity.user_activity,
             this.state.questions
         );
+        // this.setState({ loading: false });
         console.log("callback", callback);
-        // if (callback) {
-        // if (callback.status = "0") {
+        if (callback) {
+        if (callback.status = "0") {
         ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
         this.props.navigation.replace("drawer");
-        // }
-        // }
+        }
+        }
     };
 
     render() {
