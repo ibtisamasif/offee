@@ -63,8 +63,7 @@ class MCQ extends Component {
                             isClicked: false
                         }
                     ],
-                    status: 1,
-                    isMark: false
+                    status: 1
                 },
                 {
                     id: 2,
@@ -100,8 +99,7 @@ class MCQ extends Component {
                             isClicked: false
                         }
                     ],
-                    status: 2,
-                    isMark: true
+                    status: 2
                 },
                 {
                     id: 3,
@@ -137,8 +135,7 @@ class MCQ extends Component {
                             isClicked: false
                         }
                     ],
-                    status: 3,
-                    isMark: false
+                    status: 3
                 },
                 {
                     id: 4,
@@ -596,7 +593,7 @@ class MCQ extends Component {
                                                             onPress={() =>
                                                                 this.moveToSpecificQuestion(item.id - 1)
                                                             }
-                                                            style={styles.getCircleStyle(item)}
+                                                            style={styles.getCircleStyle(item, this.state.index)}
                                                         >
                                                             <Text
                                                                 style={{
@@ -830,7 +827,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    getCircleStyle(item) {
+    getCircleStyle(item, index) {
         return {
             height: totalSize(4),
             width: totalSize(4),
@@ -839,7 +836,7 @@ const styles = StyleSheet.create({
             borderWidth: 1,
             borderRadius: 100,
             borderColor: "gray",
-            backgroundColor: item.status === 1 ? colors.green : colors.transparent
+            backgroundColor: item.status === 1 ? colors.green : item.id === index + 1 ? colors.Quizblue : colors.transparent
         };
     },
     loading: {
