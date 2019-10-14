@@ -204,6 +204,7 @@ export async function submitAnswers(quizId, userActivity, data) {
     let user = await Storage.getItem('user')
 
     let formData = new FormData();
+    formData.append('action', "SUBMIT_ANSWER");
     formData.append('quiz_id', quizId);
     formData.append('user_id', user.name);
     formData.append('useractivity', userActivity);
@@ -214,7 +215,7 @@ export async function submitAnswers(quizId, userActivity, data) {
 
     await axios({
       method: "post",
-      url: "https://examination.offee.in/admin/submit_answers_controller.php",
+      url: "https://examination.offee.in/admin/Controller.php",
       data: formData,
       config: { headers: { "Content-Type": "application/json" } }
     })

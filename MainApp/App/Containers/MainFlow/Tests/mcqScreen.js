@@ -256,6 +256,7 @@ class MCQ extends Component {
                 }
             }
         }
+        this.setState({ });
     };
 
     goToNext = () => {
@@ -307,23 +308,37 @@ class MCQ extends Component {
     };
 
     async submitTest() {
-        this._toggleModalSubmit();
-        this._toggleModalQuestions();
-        // this.setState({ loading: true });
-        let quizActivity = this.props.navigation.getParam("quizActivity");
-        let callback = await submitAnswers(
-            this.state.quiz.id,
-            quizActivity.user_activity,
-            this.state.questions
-        );
-        // this.setState({ loading: false });
-        console.log("callback", callback);
-        if (callback) {
-        if (callback.status = "0") {
-        ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
-        this.props.navigation.replace("drawer");
+        var arr = new Array(this.state.questions.length);
+        for (i = 0; i < this.state.questions.length; i++) {
+            var obj = {};
+            obj.question_id = this.state.question[i].question_id
+            if(this.state.questions[i].question_answer === null){
+                obj.answer_id = "";
+            }else {
+                obj.answer_id = this.state.questions[i].question_answer
+            }
+            arr[i] = obj;
         }
-        }
+
+        console.log("answers array: ", arr)
+
+        // this._toggleModalSubmit();
+        // this._toggleModalQuestions();
+        // // this.setState({ loading: true });
+        // let quizActivity = this.props.navigation.getParam("quizActivity");
+        // let callback = await submitAnswers(
+        //     this.state.quiz.id,
+        //     quizActivity.user_activity,
+        //     this.state.questions
+        // );
+        // // this.setState({ loading: false });
+        // console.log("callback", callback);
+        // if (callback) {
+        //     if (callback.status = "0") {
+        //         ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
+        //         this.props.navigation.replace("drawer");
+        //     }
+        // }
     };
 
     render() {
