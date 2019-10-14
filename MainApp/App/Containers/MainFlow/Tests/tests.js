@@ -399,15 +399,15 @@ export class TestsList extends Component {
                         <View
                           key={key}
                           style={{
-                            width: width(90),
+                            width: width(97),
                             backgroundColor: "white",
                             alignItems: "center",
-                            marginVertical: totalSize(1.3),
+                            marginVertical: totalSize(0.8),
                             marginHorizontal: totalSize(0.5),
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            borderRadius: 5,
-                            elevation: 3
+                            borderRadius: 9,
+                            elevation: 2
                           }}
                         >
                           <View
@@ -416,7 +416,7 @@ export class TestsList extends Component {
                               marginLeft: totalSize(1.5)
                             }}
                           >
-                            <Text style={[styles.h2]}>{item.quiz_name}</Text>
+                            <Text style={[styles.subjectNameText]}>{item.quiz_name}</Text>
                           </View>
                           <View
                             style={{
@@ -494,6 +494,11 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold"
   },
+  subjectNameText: {
+    fontSize: totalSize(1.7),
+    color: "gray",
+    fontWeight: "bold"
+  },
   h2: {
     fontSize: totalSize(2),
     color: "gray",
@@ -519,7 +524,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   button: {
-    width: width(30),
+    width: width(36),
     height: height(4),
     marginRight: totalSize(1),
     alignSelf: "center",
@@ -530,7 +535,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   btnTxt: {
-    fontSize: totalSize(2),
+    fontSize: totalSize(1.6),
     color: colors.Offeeblue
   },
   headerBeginTest: {
