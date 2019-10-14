@@ -33,6 +33,7 @@ class MCQ extends Component {
             questions: [
                 {
                     id: 1,
+                    question_id: "c0bebaf1daf1ba20cb3167eb3be2eb9f",
                     question_text: "what is your name",
                     question_options: [
                         {
@@ -69,6 +70,7 @@ class MCQ extends Component {
                 },
                 {
                     id: 2,
+                    question_id: "c0bebaf1daf1ba20cb3167eb3be2eb9f",
                     question_text: "what is your age",
                     question_options: [
                         {
@@ -105,6 +107,7 @@ class MCQ extends Component {
                 },
                 {
                     id: 3,
+                    question_id: "c0bebaf1daf1ba20cb3167eb3be2eb9f",
                     question_text: "what is your gender",
                     question_options: [
                         {
@@ -141,6 +144,7 @@ class MCQ extends Component {
                 },
                 {
                     id: 4,
+                    question_id: "",
                     question_text: "",
                     question_options: ""
                 }
@@ -312,37 +316,39 @@ class MCQ extends Component {
     };
 
     async submitTest() {
-        // var arr = new Array(this.state.questions.length);
-        // for (i = 0; i < this.state.questions.length; i++) {
-        //     var obj = {};
-        //     obj.question_id = this.state.question[i].question_id
-        //     if (this.state.questions[i].question_answer === null) {
-        //         obj.answer_id = "";
-        //     } else {
-        //         obj.answer_id = this.state.questions[i].question_answer
-        //     }
-        //     arr[i] = obj;
-        // }
+        var arr = [];
+        for (let i = 0; i < this.state.questions.length; i++) {
+            var question_id = this.state.questions[i].question_id
+            var answer_id = "";
+            if (this.state.questions[i].question_answer === "") {
 
-        // console.log("answers array: ", arr)
+            } else {
+                answer_id = this.state.questions[i].question_answer
+            }
+            var obj = {
+                ['question_id']: question_id,
+                ['answer_id']: answer_id
+            }
+            arr.push(obj);
+        }
 
         this._toggleModalSubmit();
         // this._toggleModalQuestions();
-        // this.setState({ loading: true });
+        this.setState({ loading: true });
         let quizActivity = this.props.navigation.getParam("quizActivity");
         let callback = await submitAnswers(
             this.state.quiz.id,
             quizActivity.user_activity,
-            this.state.questions
+            arr
         );
-        // this.setState({ loading: false });
+        this.setState({ loading: false });
         console.log("callback", callback);
-        // if (callback) {
-        // if (callback.status = "0") {
-        ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
-        this.props.navigation.replace("drawer");
-        // }
-        // }
+        if (callback) {
+            if (callback.status = "0") {
+                ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
+                this.props.navigation.replace("drawer");
+            }
+        }
     };
 
     render() {

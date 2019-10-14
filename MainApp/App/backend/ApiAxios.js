@@ -209,7 +209,7 @@ export async function submitAnswers(quizId, userActivity, data) {
     formData.append('user_id', user.name);
     formData.append('useractivity', userActivity);
     formData.append('end_time', currentTime);
-    formData.append('data', data);
+    formData.append('data', JSON.stringify(data));
 
     console.log("formData: ", formData)
 
@@ -220,12 +220,8 @@ export async function submitAnswers(quizId, userActivity, data) {
       config: { headers: { "Content-Type": "application/json" } }
     })
       .then(function (response) {
-        //handle success
-        // console.log("1", response);
         if (response.status == 200) {
-
           var responseData = response.data;
-
           // check if responseData is a string or json
           if (isString(responseData)) {
             console.log('IsString', responseData)
@@ -237,14 +233,11 @@ export async function submitAnswers(quizId, userActivity, data) {
         }
       })
       .catch(function (err) {
-        //handle error
-        // console.error(this.props.url, status, err.toString())
         throw err;
       });
   } catch (error) {
     console.log("catchSubmitAnswers", error);
-    // console.error(this.props.url, status, error.toString())
-    // Alert.alert("Something went wrong");
+    Alert.alert("Something went wrong");
     throw error;
   }
   return parsed_response;
