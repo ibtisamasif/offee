@@ -327,7 +327,7 @@ class MCQ extends Component {
         // console.log("answers array: ", arr)
 
         this._toggleModalSubmit();
-        this._toggleModalQuestions();
+        // this._toggleModalQuestions();
         // this.setState({ loading: true });
         let quizActivity = this.props.navigation.getParam("quizActivity");
         let callback = await submitAnswers(
@@ -338,10 +338,10 @@ class MCQ extends Component {
         // this.setState({ loading: false });
         console.log("callback", callback);
         // if (callback) {
-            // if (callback.status = "0") {
-                ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
-                this.props.navigation.replace("drawer");
-            // }
+        // if (callback.status = "0") {
+        ToastAndroid.show('Successfully submitted', ToastAndroid.SHORT);
+        this.props.navigation.replace("drawer");
+        // }
         // }
     };
 
@@ -504,20 +504,30 @@ class MCQ extends Component {
                                         }
                                     )}
 
+                                    <TouchableOpacity
+                                        style={styles.previousNextButton}
+                                        onPress={() => this.verifysubmitTest()}
+                                    >
+                                        <View
+                                            style={{ flexDirection: "row", alignItems: "center" }}
+                                        >
+                                            <Text style={[styles.h3, { color: colors.Offeeblue }]}>
+                                                submit
+                        </Text>
+                                        </View>
+                                    </TouchableOpacity>
+
                                     <View
                                         style={{
                                             flex: 1,
                                             paddingHorizontal: totalSize(1),
-                                            //alignItems: "flex-end"
                                             justifyContent: "flex-end"
                                         }}
                                     >
                                         <View
                                             style={{
                                                 flexDirection: "row",
-                                                //justifyContent: "flex-end"
                                                 justifyContent: "space-between"
-                                                //marginTop: totalSize(20)
                                             }}
                                         >
                                             <TouchableOpacity
@@ -820,7 +830,7 @@ const styles = StyleSheet.create({
     previousNextButton: {
         height: height(6),
         width: width(47.5),
-        //marginBottom: totalSize(0.5),
+        marginBottom: totalSize(0.5),
         borderWidth: 1,
         borderRadius: 2,
         alignItems: "center",
