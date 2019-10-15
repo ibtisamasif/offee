@@ -5,9 +5,9 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  BackHandler
+  BackHandler,
+  ActivityIndicator
 } from "react-native";
-import { Icon } from "react-native-elements";
 import { height, width, totalSize } from "react-native-dimension";
 import colors from "../../../Themes/Colors";
 import Modal from "react-native-modal";
@@ -55,29 +55,16 @@ export default class Tests extends Component {
     return (
       <View style={styles.Maincontainer}>
         <View style={styles.header}>
-          <View style={{ flex: 5.5, justifyContent: "center" }}>
-            <View>
-              <Text
-                style={{
-                  fontSize: totalSize(2),
-                  color: "white",
-                  fontWeight: "bold",
-                  marginLeft: totalSize(2)
-                }}
-              >
-                Offee
-              </Text>
-            </View>
-          </View>
-          <View style={styles.headerIconContainer}>
-            <Icon
-              name="sign-out"
-              color="white"
-              type="octicon"
-              size={totalSize(3)}
-              onPress={() => this._toggleModalLogout()}
-            />
-          </View>
+          <Text
+            style={{
+              fontSize: totalSize(2),
+              color: "white",
+              fontWeight: "bold",
+              marginLeft: totalSize(2)
+            }}
+          >
+            Offee
+          </Text>
         </View>
         <View style={styles.container}>
           <TestsList />
@@ -166,8 +153,9 @@ export class TestsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       instructionModalVisible: false,
-      selectedTest : {},
+      selectedTest: {},
       tests: [
         {
           id: 1,
@@ -176,7 +164,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 2,
@@ -185,7 +174,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 3,
@@ -194,7 +184,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 4,
@@ -203,7 +194,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 5,
@@ -212,7 +204,8 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: "300"
         },
         {
           id: 6,
@@ -221,15 +214,18 @@ export class TestsList extends Component {
           tag: "IBPS Clerk",
           questions: "100",
           Score: "100",
-          quiz_duration: "60"
+          quiz_duration: "60",
+          answered: null
         }
       ]
     };
   }
 
   async componentDidMount() {
+    this.setState({ loading: true });
     let user = await Storage.getItem("user");
     tests = await subjectList(user.cat, user.name);
+    this.setState({ loading: false });
     console.log("api data", tests);
     if (tests) {
       this.setState({
@@ -265,19 +261,22 @@ export class TestsList extends Component {
           animationInTiming={250}
           animationOutTiming={250}
           backdropOpacity={0.5}
+          style={{ margin: 0 }}
         >
           <View style={styles.MainModalContainer}>
             <View style={{ backgroundColor: "#fff" }}>
-              <View style={[styles.botton, { marginBottom: height(1) }]}>
+              <View
+                style={[styles.headerBeginTest, { marginBottom: height(1) }]}
+              >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={[styles.h2, { color: "white" }]}>
+                  <Text style={{
+                    fontSize: totalSize(2),
+                    color: "white"
+                  }}>
                     Begin Test !!
                   </Text>
                 </View>
               </View>
-              {/* <View style={{ marginVertical: height(2) }}>
-              <Text style={styles.h2}> {this.state.data.quiz_name} </Text>
-            </View> */}
               <View
                 style={{
                   width: width(90),
@@ -285,21 +284,20 @@ export class TestsList extends Component {
                   borderBottomWidth: 0.6
                 }}
               >
-                <Text style={[styles.h3, { marginBottom: height(1) }]}>
+                <Text style={{ fontSize: totalSize(2), marginBottom: height(1) }}>
                   Are you sure you want to begin the test ?
                 </Text>
               </View>
               <View
                 style={{
                   width: width(90)
-                  //alignItems: "center",
                 }}
               >
                 <Text
                   style={[
                     styles.h4,
                     {
-                      marginHorizontal: totalSize(1.2),
+                      marginHorizontal: totalSize(1.6),
                       marginTop: totalSize(1)
                     }
                   ]}
@@ -310,8 +308,7 @@ export class TestsList extends Component {
                   style={[
                     styles.h4,
                     {
-                      marginHorizontal: totalSize(1.2),
-                      //marginBottom: totalSize(1),
+                      marginHorizontal: totalSize(1.6),
                       fontWeight: "bold"
                     }
                   ]}
@@ -327,8 +324,7 @@ export class TestsList extends Component {
                     style={[
                       styles.h4,
                       {
-                        marginHorizontal: totalSize(1.2),
-                        //marginBottom: totalSize(1),
+                        marginHorizontal: totalSize(1.6),
                         fontWeight: "bold"
                       }
                     ]}
@@ -346,7 +342,7 @@ export class TestsList extends Component {
                     style={[
                       styles.h4,
                       {
-                        marginHorizontal: totalSize(1.2),
+                        marginHorizontal: totalSize(1.6),
                         marginBottom: totalSize(1),
                         fontWeight: "bold"
                       }
@@ -365,7 +361,7 @@ export class TestsList extends Component {
                   onPress={() => this.quizActivity()}
                 >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={[styles.h3]}>Begin Test</Text>
+                    <Text style={{ color: "black" }}>Begin Test</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -378,7 +374,7 @@ export class TestsList extends Component {
                   }
                 >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={[styles.h3]}>Cancel</Text>
+                    <Text style={{ color: "black" }}>Cancel</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -386,62 +382,82 @@ export class TestsList extends Component {
           </View>
         </Modal>
         <View style={styles.container}>
-          <View tabLabel="IBPS Clerk">
-            {
-              <View style={{ alignItems: "center" }}>
-                <ScrollView>
-                  {this.state.tests.map((item, key) => {
-                    return (
-                      <View
-                        key={key}
-                        style={{
-                          width: width(90),
-                          backgroundColor: "white",
-                          alignItems: "center",
-                          marginVertical: totalSize(1.3),
-                          marginHorizontal: totalSize(0.5),
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          borderRadius: 5,
-                          elevation: 3
-                        }}
-                      >
-                        <View
-                          style={{
-                            //width: width(50),
-                            marginLeft: totalSize(1.5)
-                          }}
-                        >
-                          <Text style={[styles.h2]}>{item.quiz_name}</Text>
-                        </View>
-                        <View
-                          style={{
-                            //width: width(30),
-                            marginVertical: totalSize(1.5),
-                            alignItems: "center"
-                          }}
-                        >
-                          <TouchableOpacity
-                            onPress={() => {
-                              this.setState({
-                                instructionModalVisible: true,
-                                selectedTest: item
-                              });
+          {this.state.loading === true ? (
+            <ActivityIndicator
+              style={styles.loading}
+              size={"small"}
+              color={colors.Offeeblue}
+            />
+          ) : (
+              <View tabLabel="IBPS Clerk">
+                {
+                  <View style={{ alignItems: "center" }}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                      {this.state.tests.map((item, key) => {
+                        const isAnswered = item.answered;
+                        return (
+                          <View
+                            key={key}
+                            style={{
+                              width: width(97),
+                              backgroundColor: "white",
+                              alignItems: "center",
+                              marginVertical: totalSize(0.8),
+                              marginHorizontal: totalSize(0.5),
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              borderRadius: 9,
+                              elevation: 2
                             }}
-                            style={styles.button}
                           >
-                            <View style={styles.btnTxtContainer}>
-                              <Text style={styles.btnTxt}>START</Text>
+                            <View
+                              style={{
+                                //width: width(50),
+                                marginLeft: totalSize(1.5)
+                              }}
+                            >
+                              <Text style={[styles.subjectNameText]}>{item.quiz_name}</Text>
                             </View>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    );
-                  })}
-                </ScrollView>
+                            <View
+                              style={{
+                                //width: width(30),
+                                marginVertical: totalSize(1.5),
+                                alignItems: "center"
+                              }}
+                            >
+                              {isAnswered ? (
+                                <TouchableOpacity
+                                  style={styles.button}
+                                  disabled={true}
+                                >
+                                  <View style={styles.btnTxtContainer}>
+                                    <Text style={styles.btnTxt}> SUBMITTED </Text>
+                                  </View>
+                                </TouchableOpacity>
+                              ) : (
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      this.setState({
+                                        instructionModalVisible: true,
+                                        selectedTest: item
+                                      });
+                                    }}
+                                    style={styles.button}
+                                  >
+                                    <View style={styles.btnTxtContainer}>
+                                      <Text style={styles.btnTxt}> START </Text>
+                                    </View>
+                                  </TouchableOpacity>
+                                )}
+                            </View>
+                          </View>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                }
               </View>
-            }
-          </View>
+            )}
         </View>
       </View>
     );
@@ -453,22 +469,16 @@ const styles = StyleSheet.create({
     flex: 1
   },
   MainModalContainer: {
-    //flex: 1,
-    width: "100%",
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.1)"
+    backgroundColor: "rgba(0,0,0,0.4)"
   },
   header: {
-    flex: 0.1,
+    flex: 0.08,
     flexDirection: "row",
-    backgroundColor: colors.Offeeblue
-  },
-  headerIconContainer: {
-    flex: 1.5,
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: colors.Offeeblue,
+    alignItems: "center"
   },
   container: {
     flex: 1,
@@ -477,6 +487,11 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: totalSize(3),
     color: "black",
+    fontWeight: "bold"
+  },
+  subjectNameText: {
+    fontSize: totalSize(1.7),
+    color: "gray",
     fontWeight: "bold"
   },
   h2: {
@@ -500,10 +515,11 @@ const styles = StyleSheet.create({
   btnTxtContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    fontWeight: "bold"
   },
   button: {
-    width: width(30),
+    width: width(36),
     height: height(4),
     marginRight: totalSize(1),
     alignSelf: "center",
@@ -511,14 +527,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor: colors.Offeeblue,
     borderWidth: 1,
-    elevation: 1,
-    borderRadius: 2.5
+    borderRadius: 5
   },
   btnTxt: {
-    fontSize: totalSize(2),
+    fontSize: totalSize(1.6),
     color: colors.Offeeblue
   },
-  botton: {
+  headerBeginTest: {
     height: height(6),
     width: width(90),
     backgroundColor: colors.Offeeblue,
@@ -529,12 +544,20 @@ const styles = StyleSheet.create({
   },
   customButton: {
     height: height(6),
-    width: width(44),
+    width: width(43),
     marginBottom: totalSize(0.5),
     borderColor: colors.Offeeblue,
     borderWidth: 1,
-    borderRadius: 2,
-    elevation: 2,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  loading: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
     alignItems: "center",
     justifyContent: "center"
   }
