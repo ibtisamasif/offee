@@ -303,7 +303,9 @@ class MCQ extends Component {
             IsModalVisibleQuestions: !this.state.IsModalVisibleQuestions
         });
     _toggleModalSubmit = () =>
-        this.setState({ IsModalVisibleSubmit: !this.state.IsModalVisibleSubmit });
+        this.setState({
+            IsModalVisibleSubmit: !this.state.IsModalVisibleSubmit
+        });
 
     verifysubmitTest = () => {
         this._toggleModalSubmit();
@@ -326,9 +328,10 @@ class MCQ extends Component {
             arr.push(obj);
         }
 
-        this._toggleModalSubmit();
-        // this._toggleModalQuestions();
-        this.setState({ loading: true });
+        this.setState({
+            loading: true,
+            IsModalVisibleQuestions: false
+        });
         let quizActivity = this.props.navigation.getParam("quizActivity");
         let callback = await submitAnswers(
             this.state.quiz.id,
@@ -633,110 +636,110 @@ class MCQ extends Component {
                                             </View>
                                         </View>
                                     </View>
-                                </Modal>
 
-                                <Modal
-                                    isVisible={this.state.IsModalVisibleSubmit} // sumbit
-                                    animationIn="slideInUp"
-                                    animationOut="slideOutDown"
-                                    backdropColor="black"
-                                    animationInTiming={500}
-                                    animationOutTiming={500}
-                                    backdropOpacity={0.5}
-                                >
-                                    <View style={styles.MainModalContainer}>
-                                        <View style={{ backgroundColor: "#fff" }}>
-                                            <View
-                                                style={[
-                                                    styles.headerSubmitDialog,
-                                                    { marginBottom: height(1) }
-                                                ]}
-                                            >
+                                    <Modal
+                                        isVisible={this.state.IsModalVisibleSubmit} // sumbit
+                                        animationIn="slideInUp"
+                                        animationOut="slideOutDown"
+                                        backdropColor="black"
+                                        animationInTiming={500}
+                                        animationOutTiming={500}
+                                        backdropOpacity={0.5}
+                                    >
+                                        <View style={styles.MainModalContainer}>
+                                            <View style={{ backgroundColor: "#fff" }}>
                                                 <View
-                                                    style={{ flexDirection: "row", alignItems: "center" }}
+                                                    style={[
+                                                        styles.headerSubmitDialog,
+                                                        { marginBottom: height(1) }
+                                                    ]}
                                                 >
-                                                    <Text style={[styles.h2, { color: "white" }]}>
-                                                        Confirm Submit!!
+                                                    <View
+                                                        style={{ flexDirection: "row", alignItems: "center" }}
+                                                    >
+                                                        <Text style={[styles.h2, { color: "white" }]}>
+                                                            Confirm Submit!!
                         </Text>
+                                                    </View>
+                                                </View>
+                                                <View
+                                                    style={{
+                                                        width: width(90),
+                                                        alignItems: "center",
+                                                        borderBottomWidth: 0.6
+                                                    }}
+                                                >
+                                                    <Text style={[styles.h3, { marginBottom: height(1) }]}>
+                                                        Are you sure you want to submit the test ?
+                      </Text>
+                                                </View>
+                                                <View style={{ width: width(90) }}>
+                                                    <Text
+                                                        style={[
+                                                            styles.h4,
+                                                            {
+                                                                marginHorizontal: totalSize(1.6),
+                                                                marginTop: totalSize(0.6)
+                                                            }
+                                                        ]}
+                                                    >
+                                                        Total No of Questions:
+                      </Text>
+                                                    <Text
+                                                        style={[
+                                                            styles.h4,
+                                                            {
+                                                                marginHorizontal: totalSize(1.6),
+                                                                marginTop: totalSize(0.6)
+                                                            }
+                                                        ]}
+                                                    >
+                                                        No of questions attempted:
+                      </Text>
+                                                    <Text
+                                                        style={[
+                                                            styles.h4,
+                                                            {
+                                                                marginHorizontal: totalSize(1.6),
+                                                                marginTop: totalSize(0.6),
+                                                                marginBottom: totalSize(2)
+                                                            }
+                                                        ]}
+                                                    >
+                                                        No of questions skipped:
+                      </Text>
+                                                </View>
+
+                                                <View
+                                                    style={{
+                                                        flexDirection: "row",
+                                                        justifyContent: "space-around"
+                                                    }}
+                                                >
+                                                    <TouchableOpacity
+                                                        style={styles.customButton}
+                                                        onPress={() => this.submitTest()}
+                                                    >
+                                                        <View
+                                                            style={{ flexDirection: "row", alignItems: "center" }}
+                                                        >
+                                                            <Text style={[styles.h3]}>Yes,Submit Test</Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        style={styles.customButton}
+                                                        onPress={this._toggleModalSubmit}
+                                                    >
+                                                        <View
+                                                            style={{ flexDirection: "row", alignItems: "center" }}
+                                                        >
+                                                            <Text style={[styles.h3]}>No,Continue Test</Text>
+                                                        </View>
+                                                    </TouchableOpacity>
                                                 </View>
                                             </View>
-                                            <View
-                                                style={{
-                                                    width: width(90),
-                                                    alignItems: "center",
-                                                    borderBottomWidth: 0.6
-                                                }}
-                                            >
-                                                <Text style={[styles.h3, { marginBottom: height(1) }]}>
-                                                    Are you sure you want to submit the test ?
-                      </Text>
-                                            </View>
-                                            <View style={{ width: width(90) }}>
-                                                <Text
-                                                    style={[
-                                                        styles.h4,
-                                                        {
-                                                            marginHorizontal: totalSize(1.6),
-                                                            marginTop: totalSize(0.6)
-                                                        }
-                                                    ]}
-                                                >
-                                                    Total No of Questions:
-                      </Text>
-                                                <Text
-                                                    style={[
-                                                        styles.h4,
-                                                        {
-                                                            marginHorizontal: totalSize(1.6),
-                                                            marginTop: totalSize(0.6)
-                                                        }
-                                                    ]}
-                                                >
-                                                    No of questions attempted:
-                      </Text>
-                                                <Text
-                                                    style={[
-                                                        styles.h4,
-                                                        {
-                                                            marginHorizontal: totalSize(1.6),
-                                                            marginTop: totalSize(0.6),
-                                                            marginBottom: totalSize(2)
-                                                        }
-                                                    ]}
-                                                >
-                                                    No of questions skipped:
-                      </Text>
-                                            </View>
-
-                                            <View
-                                                style={{
-                                                    flexDirection: "row",
-                                                    justifyContent: "space-around"
-                                                }}
-                                            >
-                                                <TouchableOpacity
-                                                    style={styles.customButton}
-                                                    onPress={() => this.submitTest()}
-                                                >
-                                                    <View
-                                                        style={{ flexDirection: "row", alignItems: "center" }}
-                                                    >
-                                                        <Text style={[styles.h3]}>Yes,Submit Test</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity
-                                                    style={styles.customButton}
-                                                    onPress={this._toggleModalSubmit}
-                                                >
-                                                    <View
-                                                        style={{ flexDirection: "row", alignItems: "center" }}
-                                                    >
-                                                        <Text style={[styles.h3]}>No,Continue Test</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                            </View>
                                         </View>
-                                    </View>
+                                    </Modal>
                                 </Modal>
                             </View>
                         </ScrollView>
