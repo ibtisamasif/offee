@@ -560,7 +560,7 @@ class MCQ extends Component {
                                                 >
                                                     <Text style={[styles.h3, { color: colors.Offeeblue }]}>
                                                         {'Clear Selection '}
-                        </Text>
+                                                    </Text>
                                                     <Icon name={'closecircleo'} color='gray' type='antdesign' size={totalSize(2)} onPress={() => this.clearSelection()} />
                                                 </View>
                                             </TouchableOpacity>
@@ -903,7 +903,7 @@ const styles = StyleSheet.create({
                 width: totalSize(4.6),
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderWidth: 1,
+                borderWidth: 2,
                 borderRadius: 100,
                 borderColor: colors.redColor,
                 backgroundColor: item.status === 1 ? colors.green : item.id === index + 1 ? colors.Quizblue : colors.transparent
