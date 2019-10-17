@@ -469,12 +469,6 @@ class MCQ extends Component {
                                             >
                                                 Q.{this.state.questions[this.state.index].id}
                                             </Text>
-                                            <View style={{ flex: 1, backgroundColor: 'transparent', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                                <Icon name={this.state.questions[this.state.index].isMark ? 'star' : 'staro'} color='gray' type='antdesign' size={totalSize(2)} onPress={() => this.setMark()} />
-                                            </View>
-                                            <View style={{ flex: 1, backgroundColor: 'transparent', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                                <Icon name={'closecircleo'} color='gray' type='antdesign' size={totalSize(2)} onPress={() => this.clearSelection()} />
-                                            </View>
                                         </View>
 
                                         <View
@@ -551,6 +545,39 @@ class MCQ extends Component {
                                             justifyContent: "flex-end"
                                         }}
                                     >
+                                        <View
+                                            style={{
+                                                flexDirection: "row",
+                                                justifyContent: "space-between"
+                                            }}
+                                        >
+                                            <TouchableOpacity
+                                                style={styles.previousNextButton}
+                                                onPress={() => this.clearSelection()}
+                                            >
+                                                <View
+                                                    style={{ flexDirection: "row", alignItems: "center" }}
+                                                >
+                                                    <Text style={[styles.h3, { color: colors.Offeeblue }]}>
+                                                        {'Clear Selection '}
+                        </Text>
+                                                    <Icon name={'closecircleo'} color='gray' type='antdesign' size={totalSize(2)} onPress={() => this.clearSelection()} />
+                                                </View>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                style={styles.previousNextButton}
+                                                onPress={() => this.setMark()}
+                                            >
+                                                <View
+                                                    style={{ flexDirection: "row", alignItems: "center" }}
+                                                >
+                                                    <Text style={[styles.h3, { color: colors.Offeeblue }]}>
+                                                        {this.state.questions[this.state.index].isMark ? 'UnMark ' : 'Mark '}
+                                                    </Text>
+                                                    <Icon name={this.state.questions[this.state.index].isMark ? 'star' : 'staro'} color='gray' type='antdesign' size={totalSize(2)} onPress={() => this.setMark()} />
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
                                         <View
                                             style={{
                                                 flexDirection: "row",
@@ -723,7 +750,7 @@ class MCQ extends Component {
                                                         ]}
                                                     >
                                                         Total No of Questions: {this.state.questions.length}
-                      </Text>
+                                                    </Text>
                                                     <Text
                                                         style={[
                                                             styles.h4,
@@ -734,7 +761,7 @@ class MCQ extends Component {
                                                         ]}
                                                     >
                                                         No of questions attempted: {countAttempted}
-                      </Text>
+                                                    </Text>
                                                     <Text
                                                         style={[
                                                             styles.h4,
@@ -746,7 +773,7 @@ class MCQ extends Component {
                                                         ]}
                                                     >
                                                         No of questions skipped: {countUnAttempted}
-                      </Text>
+                                                    </Text>
                                                 </View>
 
                                                 <View
@@ -872,13 +899,13 @@ const styles = StyleSheet.create({
     getCircleStyle(item, index) {
         if (item.isMark) {
             return {
-                height: totalSize(4.6), 
-                width: totalSize(4.6), 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                borderWidth: 1, 
-                borderRadius: 100, 
-                borderColor: colors.redColor, 
+                height: totalSize(4.6),
+                width: totalSize(4.6),
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderRadius: 100,
+                borderColor: colors.redColor,
                 backgroundColor: item.status === 1 ? colors.green : item.id === index + 1 ? colors.Quizblue : colors.transparent
             }
         } else {
