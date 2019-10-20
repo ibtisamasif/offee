@@ -8,6 +8,7 @@ import {
   BackHandler,
   ActivityIndicator
 } from "react-native";
+import { Icon } from 'react-native-elements'
 import { height, width, totalSize } from "react-native-dimension";
 import colors from "../../../Themes/Colors";
 import Modal from "react-native-modal";
@@ -65,6 +66,9 @@ export default class Tests extends Component {
           >
             Offee
           </Text>
+          <View style={styles.headerIconContainer}>
+            <Icon name='sign-out' color='white' type='octicon' size={totalSize(3)} onPress={() => this._toggleModalLogout()} />
+          </View>
         </View>
         <View style={styles.container}>
           <TestsList />
@@ -480,6 +484,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.Offeeblue,
     alignItems: "center"
   },
+  headerIconContainer: {
+    flex: 1.5,
+    alignItems: 'flex-end',
+    marginRight: totalSize(2),
+    justifyContent: 'center'
+},
   container: {
     flex: 1,
     backgroundColor: colors.silver

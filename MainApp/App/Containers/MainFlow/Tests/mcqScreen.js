@@ -63,7 +63,8 @@ class MCQ extends Component {
                             isClicked: false
                         }
                     ],
-                    status: 1
+                    status: 1,
+                    isMark: false,
                 },
                 {
                     id: 2,
@@ -99,7 +100,8 @@ class MCQ extends Component {
                             isClicked: false
                         }
                     ],
-                    status: 2
+                    status: 2,
+                    isMark: false,
                 },
                 {
                     id: 3,
@@ -135,7 +137,8 @@ class MCQ extends Component {
                             isClicked: false
                         }
                     ],
-                    status: 3
+                    status: 3,
+                    isMark: false,
                 },
                 {
                     id: 4,
@@ -220,6 +223,12 @@ class MCQ extends Component {
         quesions[this.state.index].status = null;
         quesions[this.state.index].selected_option = null;
         this.setState({ quesions });
+    }
+
+    setMark() {
+        var quesions = { ...this.state.questions }
+        quesions[this.state.index].isMark = !this.state.questions[this.state.index].isMark;
+        this.setState({ quesions })
     }
 
     chooseOption = async item => {
@@ -349,6 +358,30 @@ class MCQ extends Component {
     };
 
     render() {
+
+        var countAttempted = 0
+        for (const [index, value] of this.state.questions.entries()) {
+            if (value.status === 1) {
+                countAttempted++
+            }
+        }
+        // var countMarkedForReview = 0
+        // for (const [index, value] of this.state.questions.entries()) {
+        //     if (value.isMark) {
+        //         countMarkedForReview++
+        //     }
+        // }
+        var countUnAttempted = 0
+        countUnAttempted = this.state.questions.length - countAttempted
+
+        // var countUnSeen = 0
+        // for (const [index, value] of this.state.questions.entries()) {
+        //     if (!value.status) {
+        //         countUnSeen++
+        //     }
+        // }
+        // countUnSeen = countUnSeen - 1
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 {this.state.loading === true ? (
@@ -520,6 +553,39 @@ class MCQ extends Component {
                                         >
                                             <TouchableOpacity
                                                 style={styles.previousNextButton}
+                                                onPress={() => this.clearSelection()}
+                                            >
+                                                <View
+                                                    style={{ flexDirection: "row", alignItems: "center" }}
+                                                >
+                                                    <Text style={[styles.h3, { color: colors.Offeeblue }]}>
+                                                        {'Clear Selection '}
+                                                    </Text>
+                                                    <Icon name={'closecircleo'} color='gray' type='antdesign' size={totalSize(2)} onPress={() => this.clearSelection()} />
+                                                </View>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                style={styles.previousNextButton}
+                                                onPress={() => this.setMark()}
+                                            >
+                                                <View
+                                                    style={{ flexDirection: "row", alignItems: "center" }}
+                                                >
+                                                    <Text style={[styles.h3, { color: colors.Offeeblue }]}>
+                                                        {this.state.questions[this.state.index].isMark ? 'UnMark ' : 'Mark '}
+                                                    </Text>
+                                                    <Icon name={this.state.questions[this.state.index].isMark ? 'star' : 'staro'} color='gray' type='antdesign' size={totalSize(2)} onPress={() => this.setMark()} />
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View
+                                            style={{
+                                                flexDirection: "row",
+                                                justifyContent: "space-between"
+                                            }}
+                                        >
+                                            <TouchableOpacity
+                                                style={styles.previousNextButton}
                                                 onPress={() => this.goToPrevious()}
                                             >
                                                 <View
@@ -683,8 +749,8 @@ class MCQ extends Component {
                                                             }
                                                         ]}
                                                     >
-                                                        Total No of Questions:
-                      </Text>
+                                                        Total No of Questions: {this.state.questions.length}
+                                                    </Text>
                                                     <Text
                                                         style={[
                                                             styles.h4,
@@ -694,8 +760,8 @@ class MCQ extends Component {
                                                             }
                                                         ]}
                                                     >
-                                                        No of questions attempted:
-                      </Text>
+                                                        No of questions attempted: {countAttempted}
+                                                    </Text>
                                                     <Text
                                                         style={[
                                                             styles.h4,
@@ -706,8 +772,8 @@ class MCQ extends Component {
                                                             }
                                                         ]}
                                                     >
-                                                        No of questions skipped:
-                      </Text>
+                                                        No of questions skipped: {countUnAttempted}
+                                                    </Text>
                                                 </View>
 
                                                 <View
@@ -831,16 +897,29 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     getCircleStyle(item, index) {
-        return {
-            height: totalSize(4),
-            width: totalSize(4),
-            alignItems: "center",
-            justifyContent: "center",
-            borderWidth: 1,
-            borderRadius: 100,
-            borderColor: "gray",
-            backgroundColor: item.status === 1 ? colors.green : item.id === index + 1 ? colors.Quizblue : colors.transparent
-        };
+        if (item.isMark) {
+            return {
+                height: totalSize(4.6),
+                width: totalSize(4.6),
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderWidth: 2,
+                borderRadius: 100,
+                borderColor: colors.redColor,
+                backgroundColor: item.status === 1 ? colors.green : item.id === index + 1 ? colors.Quizblue : colors.transparent
+            }
+        } else {
+            return {
+                height: totalSize(4),
+                width: totalSize(4),
+                alignItems: "center",
+                justifyContent: "center",
+                borderWidth: 1,
+                borderRadius: 100,
+                borderColor: "gray",
+                backgroundColor: item.status === 1 ? colors.green : item.id === index + 1 ? colors.Quizblue : colors.transparent
+            }
+        }
     },
     loading: {
         position: "absolute",
