@@ -243,7 +243,7 @@ export async function submitAnswers(quizId, userActivity, data) {
 
 //////////////// User Activity ///////////////////
 
-export async function userActivity(quiz, user) {
+export async function userActivity(quiz_id, user_name) {
 
   let parsed_response = null;
   try {
@@ -251,8 +251,8 @@ export async function userActivity(quiz, user) {
 
     let formData = new FormData();
     formData.append('action', 'USER_ACTIVITY');
-    formData.append('quiz_id', quiz.QUIZ_ID);
-    formData.append('user_id', user.name);
+    formData.append('quiz_id', quiz_id);
+    formData.append('user_id', user_name);
 
     await axios({
       method: "post",

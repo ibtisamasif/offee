@@ -8,7 +8,8 @@ import {
     SafeAreaView,
     BackHandler,
     ToastAndroid,
-    ActivityIndicator
+    ActivityIndicator,
+    AppState
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { height, width, totalSize } from "react-native-dimension";
@@ -16,12 +17,13 @@ import colors from "../../../Themes/Colors";
 import CountDown from "react-native-countdown-component";
 import Modal from "react-native-modal";
 import { FlatGrid } from "react-native-super-grid";
-import { getQuestions, submitAnswers } from "../../../backend/ApiAxios";
+import { getQuestions, submitAnswers, userActivity } from "../../../backend/ApiAxios";
 _this = null;
 class MCQ extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            appState: AppState.currentState,
             loading: false,
             IsModalVisibleQuestions: false,
             IsModalVisibleSubmit: false,
@@ -158,10 +160,39 @@ class MCQ extends Component {
             "hardwareBackPress",
             this.handleBackPress
         );
+        AppState.addEventListener('change', this._handleAppStateChange);
     }
 
     componentWillUnmount() {
         this.backHandler.remove();
+        AppState.removeEventListener('change', this._handleAppStateChange);
+    }
+
+    handleBackPress = () => {
+        ToastAndroid.show(
+            "Please finish your exam before trying to leave the current page",
+            ToastAndroid.SHORT
+        );
+        return true;
+    };
+
+    _handleAppStateChange = (nextAppState) => {
+        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+            console.log('App has come to the foreground!')
+            userActivity()
+        }
+        this.setState({ appState: nextAppState });
+    }
+
+    async userActivity() {
+        let quiz = this.props.navigation.getParam("item");
+        let user = await Storage.getItem("user");
+        let callback = await userActivity(quiz.QUIZ_ID, user.name);
+        // if (callback) {
+        //     if (callback.status == "5") {
+        //         // do nothing
+        //     }
+        // }
     }
 
     async getCurrentItem() {
@@ -195,14 +226,6 @@ class MCQ extends Component {
             questions: this.state.questions
         });
     }
-
-    handleBackPress = () => {
-        ToastAndroid.show(
-            "Please finish your exam before trying to leave the current page",
-            ToastAndroid.SHORT
-        );
-        return true;
-    };
 
     clearSelection() {
         for (
