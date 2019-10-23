@@ -657,24 +657,38 @@ class MCQ extends Component {
                                                 <FlatGrid
                                                     itemDimension={totalSize(5)}
                                                     items={this.state.questions}
-                                                    renderItem={({ item }) => (
-                                                        <TouchableOpacity
-                                                            onPress={() =>
-                                                                this.moveToSpecificQuestion(item.id - 1)
-                                                            }
-                                                            style={styles.getCircleStyle(item, this.state.index)}
-                                                        >
-                                                            <Text
-                                                                style={{
-                                                                    fontSize: totalSize(2),
-                                                                    textAlign: "center",
-                                                                    color: "black"
-                                                                }}
-                                                            >
-                                                                {item.id}
-                                                            </Text>
-                                                        </TouchableOpacity>
-                                                    )}
+                                                    renderItem={({ item }) => {
+                                                        if (item.isMark) {
+                                                            return (
+                                                                <TouchableOpacity
+                                                                    onPress={() =>
+                                                                        this.moveToSpecificQuestion(item.id - 1)
+                                                                    }
+                                                                >
+                                                                    <Icon name={'star'} color='gray' type='antdesign' size={totalSize(4)} />
+                                                                </TouchableOpacity>
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <TouchableOpacity
+                                                                    onPress={() =>
+                                                                        this.moveToSpecificQuestion(item.id - 1)
+                                                                    }
+                                                                    style={styles.getCircleStyle(item, this.state.index)}
+                                                                >
+                                                                    <Text
+                                                                        style={{
+                                                                            fontSize: totalSize(2),
+                                                                            textAlign: "center",
+                                                                            color: "black"
+                                                                        }}
+                                                                    >
+                                                                        {item.id}
+                                                                    </Text>
+                                                                </TouchableOpacity>
+                                                            )
+                                                        }
+                                                    }}
                                                 />
                                             </View>
                                             <View

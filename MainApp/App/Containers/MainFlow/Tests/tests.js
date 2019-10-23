@@ -12,7 +12,7 @@ import { Icon } from 'react-native-elements'
 import { height, width, totalSize } from "react-native-dimension";
 import colors from "../../../Themes/Colors";
 import Modal from "react-native-modal";
-import { subjectList, quizActivity } from "../../../backend/ApiAxios";
+import { subjectList, quizActivity, logout } from "../../../backend/ApiAxios";
 import Storage from "../../../helper/asyncStorage";
 import { StackActions, NavigationActions } from "react-navigation";
 
@@ -45,11 +45,23 @@ export default class Tests extends Component {
   _toggleModalLogout = () =>
     this.setState({ isModalVisibleLogout: !this.state.isModalVisibleLogout });
 
-  logOut = () => {
-    this._toggleModalLogout();
-    this.props.navigation.navigate("Auth");
-    Storage.removeItem("user");
-    Storage.clear();
+  async logOut() {
+    let user = await Storage.getItem("user");
+    let callback = await logout(user);
+    if (callback) {
+      if (callback.status == "5") {
+        this._toggleModalLogout();
+        this.props.navigation.navigate("Auth");
+        Storage.removeItem("user");
+        Storage.clear();
+      } else if (
+        callback.status == "-3" ||
+        callback.status == "-2" ||
+        callback.status == "-1"
+      ) {
+        this.setState({ errorMessage: callback.message });
+      }
+    }
   };
 
   render() {

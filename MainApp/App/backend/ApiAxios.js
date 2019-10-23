@@ -243,6 +243,49 @@ export async function submitAnswers(quizId, userActivity, data) {
   return parsed_response;
 }
 
+//////////////// Log Out ///////////////////
+
+export async function logout(user) {
+  let parsed_response = null;
+  try {
+    let formData = new FormData();
+    formData.append('action', 'LOGOUT');
+    formData.append('user', user.name);  
+
+    await axios({
+      method: "post",
+      url: "https://examination.offee.in/admin/Controller.php",
+      data: formData,
+      config: { headers: { "Content-Type": "application/json" } }
+    })
+      .then(function (response) {
+        console.log('response: ', response);
+        //handle success
+        if (response.status == 200) {
+
+          console.log('response.data: ', response.data);
+          var responseData = response.data;
+
+          // check if responseData is a string or json
+          if (isString(responseData)) {
+            console.log('IsString', responseData)
+            parsed_response = cleanStringAndReturnIntoJson(responseData);
+          } else {
+            console.log('IsJSON', responseData)
+            parsed_response = responseData;
+          }
+        }
+      })
+      .catch(function (err) {
+        throw err;
+      });
+  } catch (error) {
+    Alert.alert("Something went wrong");
+    throw error;
+  }
+  return parsed_response;
+}
+
 function isString(value) {
   return typeof value === 'string' || value instanceof String;
 }
