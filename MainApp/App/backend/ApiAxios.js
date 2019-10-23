@@ -148,11 +148,12 @@ export async function quizActivity(quiz) {
 
 //////////////// Get Questions ///////////////////
 
-export async function getQuestions(quizId) {
+export async function getQuestions(quizId, user_name) {
   let parsed_response = null;
   try {
     let formData = new FormData();
     formData.append('quiz_id', quizId);
+    formData.append('user_id', user_name);
 
     await axios({
       method: "post",

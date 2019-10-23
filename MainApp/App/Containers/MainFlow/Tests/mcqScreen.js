@@ -180,6 +180,10 @@ class MCQ extends Component {
     _handleAppStateChange = (nextAppState) => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
             console.log('App has come to the foreground!')
+            ToastAndroid.show(
+                "This will be counted as minimized",
+                ToastAndroid.SHORT
+            );
             userActivity()
         }
         this.setState({ appState: nextAppState });
