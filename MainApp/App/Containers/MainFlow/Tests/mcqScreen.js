@@ -154,11 +154,6 @@ class MCQ extends Component {
     componentDidMount() {
         _this = this;
         this.getCurrentItem();
-    }
-
-    componentDidMount() {
-        _this = this;
-        this.getCurrentItem();
         this.backHandler = BackHandler.addEventListener(
             "hardwareBackPress",
             this.handleBackPress

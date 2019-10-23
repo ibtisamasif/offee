@@ -146,8 +146,6 @@ export async function quizActivity(quiz) {
   return parsed_response;
 }
 
-
-
 //////////////// Get Questions ///////////////////
 
 export async function getQuestions(quizId) {
@@ -237,6 +235,52 @@ export async function submitAnswers(quizId, userActivity, data) {
       });
   } catch (error) {
     console.log("catchSubmitAnswers", error);
+    Alert.alert("Something went wrong");
+    throw error;
+  }
+  return parsed_response;
+}
+
+//////////////// User Activity ///////////////////
+
+export async function userActivity(quiz, user) {
+
+  let parsed_response = null;
+  try {
+    let user = await Storage.getItem('user')
+
+    let formData = new FormData();
+    formData.append('action', 'USER_ACTIVITY');
+    formData.append('quiz_id', quiz.QUIZ_ID);
+    formData.append('user_id', user.name);
+
+    await axios({
+      method: "post",
+      url: "https://examination.offee.in/admin/Controller.php",
+      data: formData,
+      config: { headers: { "Content-Type": "application/json" } }
+    })
+      .then(function (response) {
+        //handle success
+        // console.log("1", response);
+        if (response.status == 200) {
+
+          var responseData = response.data;
+
+          // check if responseData is a string or json
+          if (isString(responseData)) {
+            console.log('IsString', responseData)
+            parsed_response = cleanStringAndReturnIntoJson(responseData);
+          } else {
+            console.log('IsJSON', responseData)
+            parsed_response = responseData;
+          }
+        }
+      })
+      .catch(function (err) {
+        throw err;
+      });
+  } catch (error) {
     Alert.alert("Something went wrong");
     throw error;
   }
