@@ -17,6 +17,7 @@ import colors from "../../../Themes/Colors";
 import CountDown from "react-native-countdown-component";
 import Modal from "react-native-modal";
 import { FlatGrid } from "react-native-super-grid";
+import Storage from "../../../helper/asyncStorage";
 import { getQuestions, submitAnswers, userActivity } from "../../../backend/ApiAxios";
 _this = null;
 class MCQ extends Component {
@@ -198,7 +199,8 @@ class MCQ extends Component {
     async getCurrentItem() {
         this.setState({ loading: true });
         let quiz = this.props.navigation.getParam("item");
-        let callback = await getQuestions(quiz.QUIZ_ID);
+        let user = await Storage.getItem("user");
+        let callback = await getQuestions(quiz.QUIZ_ID, user.name);
         this.setState({ loading: false });
         if (callback) {
             this.setState({
